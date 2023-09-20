@@ -1,0 +1,75 @@
+---
+import { imageConfig } from "astro:assets";
+import Card from "../components/Card.astro";
+import Layout from "../layouts/Layout.astro";
+import ProductFilter from "../components/PLP/ProductFilter.astro";
+
+const items = [
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+];
+---
+
+<Layout title="Welcome to Astro.">
+  <ProductFilter/>
+  <div class="grid-parent">
+    {
+      items.map((item) => (
+        <Card
+          clazz="grid-child"
+          id="card"
+          title="cat"
+          body="somethin ..."
+          href="/#"
+        />
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .grid-parent { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    grid-gap: 10px; 
+    border: 1px solid black; 
+    width: 100%; 
+} 
+.grid-child { 
+    margin: 10px; 
+    border: 1px solid red; 
+}
+</style>
