@@ -1,0 +1,54 @@
+---
+import Card from "../components/Card.astro";
+import Layout from "../layouts/Layout.astro";
+
+const items = [
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  },
+
+  {
+    title: "cat",
+    body: "somethin ...",
+    href: "/#",
+  }
+];
+---
+
+<Layout title="Your Favorite products catalogue...!" productsCount="4 products found">
+  <div class="grid-parent">
+    {
+      items.map((item) => (
+        <Card
+          clazz="grid-child"
+          id="card"
+          title="cat"
+          body="somethin ..."
+          href="/#"
+        />
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .grid-parent {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 10px;
+    width: 100%;
+    padding: 2%;
+  }
+  .grid-child {
+    margin: 10px;
+    padding: 2%;
+  }
+</style>

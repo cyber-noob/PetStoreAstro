@@ -43,7 +43,8 @@ const items = [
 ];
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Search results for Dogs." productsCount="2358 products found">
+  <div class="side-to-side">
   <ProductFilter/>
   <div class="grid-parent">
     {
@@ -58,6 +59,7 @@ const items = [
       ))
     }
   </div>
+  </div>
 </Layout>
 
 <style>
@@ -65,11 +67,15 @@ const items = [
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     grid-gap: 10px; 
-    border: 1px solid black; 
-    width: 100%; 
+    width: 100%;
+    padding-right: 2%; 
 } 
 .grid-child { 
     margin: 10px; 
-    border: 1px solid red; 
+}
+
+.side-to-side {
+  display: flex;
+  align-items: stretch;
 }
 </style>
