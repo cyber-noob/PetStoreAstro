@@ -1,4 +1,5 @@
 ---
+import SearchBar from '../components/SearchBar.astro';
 interface Props {
   title: string;
   productsCount: string;
@@ -165,6 +166,8 @@ const { title, productsCount } = Astro.props;
         </div>
       </div>
     </nav>
+
+    <SearchBar/>
 
     <slot />
 
