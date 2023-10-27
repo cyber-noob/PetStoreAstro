@@ -21,86 +21,73 @@ const items = [
   title="Hey make sure we have all your favorite items on your shopping cart!"
   productsCount="Items count: 4"
 >
-<div class="cart-parent">
-  <div class="cart-item" id="cart">
-    
-    {
-        items.map(
-            (item) => (
-                <div
-      class="lg:w-1/2 md:w-8/12 w-full lg:px-8 lg:py-14 md:px-6 px-4 md:py-8 py-4 bg-white dark:bg-gray-800 overflow-y-hidden overflow-x-hidden lg:h-screen h-auto"
-      id="scroll"
-    >
-      <div class="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
-        <div class="md:w-4/12 2xl:w-1/4 w-full">
-          <img
-            src="https://i.ibb.co/SX762kX/Rectangle-36-1.png"
-            alt="Black Leather Bag"
-            class="h-full object-center object-cover md:block hidden"
-          />
-          <img
-            src="https://i.ibb.co/g9xsdCM/Rectangle-37.pngg"
-            alt="Black Leather Bag"
-            class="md:hidden w-full h-full object-center object-cover"
-          />
-        </div>
-        <div class="md:pl-3 md:w-8/12 2xl:w-3/4 flex flex-col justify-center">
-          <p
-            class="text-xs leading-3 text-gray-800 dark:text-white md:pt-0 pt-4"
+  <div class="cart-parent">
+    <div class="cart-item" id="cart">
+      {
+        items.map((item) => (
+          <div
+            class="lg:w-1/2 md:w-8/12 w-full lg:px-8 lg:py-14 md:px-6 px-4 md:py-8 py-4 bg-white dark:bg-gray-800 overflow-y-hidden overflow-x-hidden lg:h-screen h-auto"
+            id="scroll"
           >
-            RF293
-          </p>
-          <div class="flex items-center justify-between w-full pt-1">
-            <p
-              class="text-base font-black leading-none text-gray-800 dark:text-white"
-            >
-              North wolf bag
-            </p>
-            <select
-              aria-label="Select quantity"
-              class="py-2 px-1 border border-gray-200 mr-6 focus:outline-none dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white"
-            >
-              <option>01</option>
-              <option>02</option>
-              <option>03</option>
-            </select>
-          </div>
-          <p class="text-xs leading-3 text-gray-600 dark:text-white pt-2">
-            Height: 10 inches
-          </p>
-          <p class="text-xs leading-3 text-gray-600 dark:text-white py-4">
-            Color: Black
-          </p>
-          <p class="w-96 text-xs leading-3 text-gray-600 dark:text-white">
-            Composition: 100% calf leather
-          </p>
-          <div class="flex items-center justify-between pt-5">
-            <div class="flex itemms-center">
-              <p
-                class="text-xs leading-3 underline text-gray-800 dark:text-white cursor-pointer"
-              >
-                Add to favorites
-              </p>
-              <p
-                class="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer"
-              >
-                Remove
-              </p>
+            <div class="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
+              <div class="md:w-4/12 2xl:w-1/4 w-full">
+                <img
+                  src="https://i.ibb.co/SX762kX/Rectangle-36-1.png"
+                  alt="Black Leather Bag"
+                  class="h-full object-center object-cover md:block hidden"
+                />
+                <img
+                  src="https://i.ibb.co/g9xsdCM/Rectangle-37.pngg"
+                  alt="Black Leather Bag"
+                  class="md:hidden w-full h-full object-center object-cover"
+                />
+              </div>
+              <div class="md:pl-3 md:w-8/12 2xl:w-3/4 flex flex-col justify-center">
+                <p class="text-xs leading-3 text-gray-800 dark:text-white md:pt-0 pt-4">
+                  RF293
+                </p>
+                <div class="flex items-center justify-between w-full pt-1">
+                  <p class="text-base font-black leading-none text-gray-800 dark:text-white">
+                    North wolf bag
+                  </p>
+                  <select
+                    aria-label="Select quantity"
+                    class="py-2 px-1 border border-gray-200 mr-6 focus:outline-none dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white"
+                  >
+                    <option>01</option>
+                    <option>02</option>
+                    <option>03</option>
+                  </select>
+                </div>
+                <p class="text-xs leading-3 text-gray-600 dark:text-white pt-2">
+                  Height: 10 inches
+                </p>
+                <p class="text-xs leading-3 text-gray-600 dark:text-white py-4">
+                  Color: Black
+                </p>
+                <p class="w-96 text-xs leading-3 text-gray-600 dark:text-white">
+                  Composition: 100% calf leather
+                </p>
+                <div class="flex items-center justify-between pt-5">
+                  <div class="flex itemms-center">
+                    <p class="text-xs leading-3 underline text-gray-800 dark:text-white cursor-pointer">
+                      Add to favorites
+                    </p>
+                    <p class="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">
+                      Remove
+                    </p>
+                  </div>
+                  <p class="text-base font-black leading-none text-gray-800 dark:text-white">
+                    ,000
+                  </p>
+                </div>
+              </div>
             </div>
-            <p
-              class="text-base font-black leading-none text-gray-800 dark:text-white"
-            >
-              ,000
-            </p>
           </div>
-        </div>
-      </div>
+        ))
+      }
     </div>
-            )
-        )
-    }
-  </div>
-    
+
     <div class="cart-total">
       <div
         class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto"
@@ -148,16 +135,14 @@ const items = [
             </p>
           </div>
           <button
-            onclick="
-            checkoutHandler1(true)
-            "
+            id="checkout-button"
             class="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white dark:hover:bg-gray-700"
             >Checkout</button
           >
         </div>
       </div>
     </div>
-</div>
+  </div>
 </Layout>
 
 <style>
@@ -190,30 +175,98 @@ const items = [
 
   .cart-parent {
     display: flex;
-  align-items: stretch;
-  padding: 5%;
+    align-items: stretch;
+    padding: 5%;
   }
 </style>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-  let checkout = document.getElementById("checkout");
-  let checdiv = document.getElementById("chec-div");
-  let flag3 = false;
-  const checkoutHandler = () => {
-    if (!flag3) {
-      checkout.classList.add("translate-x-full");
-      checkout.classList.remove("translate-x-0");
-      setTimeout(function () {
-        checdiv.classList.add("hidden");
-      }, 1000);
-      flag3 = true;
-    } else {
-      setTimeout(function () {
-        checkout.classList.remove("translate-x-full");
-        checkout.classList.add("translate-x-0");
-      }, 1000);
-      checdiv.classList.remove("hidden");
-      flag3 = false;
-    }
+  let checkoutButton = document.getElementById("checkout-button");
+  let orderCreationResult = {
+    id: "",
   };
+
+  const body = {
+    amount: 500,
+    currency: "INR",
+    receipt: "qwsaq1",
+    partial_payment: true,
+    first_payment_min_amount: 230,
+  };
+
+  async function createRazorPay(data) {
+    try {
+      const response = await fetch("/payment_proxy/v1/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Basic " +
+            btoa("rzp_test_fJLPcc02TCY2NS" + ":" + "E73rH6RLSA5GO1Uto1N1tGpb"),
+        },
+        body: JSON.stringify(data),
+      });
+
+      orderCreationResult = await response.json();
+      console.log("Success:", orderCreationResult);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  var options = {
+    "key": "rzp_test_fJLPcc02TCY2NS", // Enter the Key ID generated from the Dashboard
+    "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "https://localhost:4321/payment/thankyou",
+    "handler": function (response){
+        if (response.razorpay_payment_id == 'undefined' || response.razorpay_payment_id < 1) {
+          window.location.replace("/payment/failure");
+        }
+        else {
+          window.location.replace('/payment/thankyou');
+        }
+    },
+    "prefill": {
+      //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+      name: "Gaurav Kumar", //your customer's name
+      email: "gaurav.kumar@example.com",
+      contact: "9000090000", //Provide the customer's phone number for better conversion rates
+    },
+    "notes": {
+      address: "Razorpay Corporate Office",
+    },
+    "theme": {
+      color: "#3399cc",
+    },
+  };
+
+  checkoutButton.addEventListener("click", async (e) => {
+    console.log("performing checkout");
+    await createRazorPay(body);
+
+    options.order_id = orderCreationResult.id;
+    console.log("options: ", JSON.stringify(options));
+
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+    });
+
+    rzp1.open();
+    e.preventDefault();
+
+
+  });
 </script>

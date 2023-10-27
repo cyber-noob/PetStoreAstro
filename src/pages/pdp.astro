@@ -1,29 +1,41 @@
 ---
+import { Button } from "@mui/material";
 import Layout from "../layouts/Layout.astro";
+
+var dummy_product = {
+  idProducts_Animal: "10",
+  animal_id: 4,
+  seller_id: "547d16ee-5fa2-11ee-8c99-0242ac120002",
+  description:
+    'Dachshunds, also known as "wiener dogs," are characterized by their long body and short legs. They are lively and curious, making them spirited companions.',
+  age: "2 month",
+  lineage: "dragon",
+  weight: "4 kg",
+  photos:
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQihmrW2q1pbGluaj911oVE5i72PSOIFDDVcSxTDcQcLMymWpt3bMPayO3s6qMCCyh88x8&usqp=CAU",
+  price: 33000,
+  sex: "Female",
+  color: "peach",
+  title: "Dachshund Puppies: Big Personalities in a Compact Package!",
+  species: "Dog",
+  breed: "Labrador",
+};
 ---
 
-<Layout title="PDP page">
+<Layout title="PDP page" productsCount="2">
   <div class="container">
     <div class="imgBx">
-      <img
-        src="https://github.com/anuzbvbmaniac/Responsive-Product-Card---CSS-ONLY/blob/master/assets/img/jordan_proto.png?raw=true"
-        alt="Nike Jordan Proto-Lyte Image"
-      />
+      <img src={dummy_product.photos} alt="Nike Jordan Proto-Lyte Image" />
     </div>
     <div class="details">
       <div class="content">
         <h2>
-          Jordan Proto-Lyte <br />
-          <span>Running Collection</span>
+          {dummy_product.title}
+          <br />
+          <span>Pet Collection</span>
         </h2>
         <p>
-          Featuring soft foam cushioning and lightweight, woven fabric in the
-          upper, the Jordan Proto-Lyte is made for all-day, bouncy comfort.
-          Lightweight Breathability: Lightweight woven fabric with real or
-          synthetic leather provides breathable support. Cushioned Comfort: A
-          full-length foam midsole delivers lightweight, plush cushioning.
-          Secure Traction: Exaggerated herringbone-pattern outsole offers
-          traction on a variety of surfaces.
+          {dummy_product.description}
         </p>
         <p class="product-colors">
           Available Colors:
@@ -46,11 +58,29 @@ import Layout from "../layouts/Layout.astro";
             data-pic="https://github.com/anuzbvbmaniac/Responsive-Product-Card---CSS-ONLY/blob/master/assets/img/jordan_proto_orange_black.png?raw=true"
           ></span>
         </p>
-        <h3>Rs. 12,800</h3>
-        <button>Buy Now</button>
+        <h3>Rs. {dummy_product.price}</h3>
       </div>
+      <div class="button-container">
+        <button
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >Add to Wishlist</button
+        >
+        <button
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >Book a video call?</button
+        >
+        <button
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >Add to Cart</button
+        >
+      </div>
+    </div>
     </div>
 
+    <div class="container">
     <div class="details">
       <div class="content">
         <h2>
@@ -91,72 +121,54 @@ import Layout from "../layouts/Layout.astro";
         <button>Buy Now</button>
       </div>
     </div>
+    
   </div>
 </Layout>
 
 <style>
   @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,800&display=swap");
 
-  body {
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    font-family: "Poppins", sans-serif;
-    background: #000;
-  }
-
+  @media (max-width:1281px) {
   .container {
     position: center;
     display:flex;
-    flex-wrap: wrap;
     justify-content: center;
+    align-items: stretch;
     width: 100%;
     height: 80%;
     background: #fff;
     margin-left: 5%;
-    margin-top: 2%;
   }
 
   .container .imgBx {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 50%;
-    height: 100%;
-    background: #212121;
+    background: #ffffff;
     transition: 0.3s linear;
   }
 
-  .container .imgBx:before {
+  /* .container .imgBx:before {
     content: "Nike";
     position: absolute;
     top: 0px;
     left: 24px;
-    color: #000;
+    color: #ffffff;
     opacity: 0.2;
     font-size: 8em;
     font-weight: 800;
-  }
+  } */
 
   .container .imgBx img {
     position: relative;
-    width: 700px;
-    transform: rotate(-30deg);
-    left: -50px;
+    width: 100%;
     transition: 0.9s linear;
   }
 
   .container .details {
-    display: flex;
     justify-content: center;
     align-items: center;
     width: 50%;
-    height: 100%;
     box-sizing: border-box;
-    padding: 40px;
+    margin-left: 5%;
   }
 
   .container .details h2 {
@@ -188,20 +200,6 @@ import Layout from "../layouts/Layout.astro";
     font-size: 2.5em;
     color: #a2a2a2;
     float: left;
-  }
-  .container .details button {
-    background: #000;
-    color: #fff;
-    border: none;
-    outline: none;
-    padding: 15px 20px;
-    margin-top: 5px;
-    font-size: 16px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 600;
-    border-radius: 40px;
-    float: right;
   }
 
   .product-colors span {
@@ -239,34 +237,56 @@ import Layout from "../layouts/Layout.astro";
     left: -5px;
     top: -5px;
   }
+}
 
   /* responsive */
-  @media (max-width: 1080px) {
+  @media (min-width: 320px) {
     .container {
-      height: auto;
+      position: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      background: #fff;
     }
     .container .imgBx {
-      padding: 40px;
       box-sizing: border-box;
       width: 100% !important;
-      height: auto;
+      height: 100%;
       text-align: center;
-      overflow: hidden;
+      align-items: center;
+      align-content: center;
+      padding: 10%;
+      margin-right: 10%;
     }
     .container .imgBx img {
-      left: initial;
       max-width: 100%;
-      transform: rotate(0deg);
+      align-items: center;
+      align-content: center;
     }
     .details {
       width: 100% !important;
       height: auto;
-      padding: 20px;
+      margin-left: 15%;
+      margin-right: 15%;
+      margin-top: 5%;
     }
     .container .details p {
       margin-left: 0;
       max-width: 100%;
     }
+  }
+
+  .button-container {
+    position: relative;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .button-container button {
+    align-items: center;
+    margin-left: 1%;
   }
 
   footer {

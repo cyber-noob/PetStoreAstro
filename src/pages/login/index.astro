@@ -11,7 +11,7 @@ const session = await Astro.locals.auth.validate();
 if (session) return Astro.redirect("/", 302); // redirect to profile page
 ---
 
-<Layout title="Hey Login">
+<Layout title="Hey Login" productsCount="">
   <div
     class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700"
   >

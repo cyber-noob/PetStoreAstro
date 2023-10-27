@@ -1,7 +1,7 @@
 ---
 interface Props {
   title: string;
-  productsCount: string
+  productsCount: string;
 }
 
 const { title, productsCount } = Astro.props;
@@ -166,12 +166,7 @@ const { title, productsCount } = Astro.props;
       </div>
     </nav>
 
-    
-    <h4 class="text-2xl font-bold dark:text-white" style="padding: 3%;"> { title }
-      <small class="ml-2 font-semibold text-gray-500 dark:text-gray-400"> { productsCount }</small>
-    </h4>
-
-      <slot />
+    <slot />
 
     <!-- Flowbite component library -->
     <script
@@ -194,7 +189,12 @@ const { title, productsCount } = Astro.props;
   html {
     font-family: system-ui, sans-serif;
     background: #ffffff;
-    background-size: 224px;
+    background-size: 100%;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
   }
   code {
     font-family:

@@ -2,14 +2,14 @@ import { lucia } from "lucia";
 import { mysql2 } from "@lucia-auth/adapter-mysql";
 import mysql from "mysql2/promise";
 import { astro } from "lucia/middleware";
-import { github } from "@lucia-auth/oauth/providers";
+import { github, google } from "@lucia-auth/oauth/providers";
 import fs from "fs";
 
 
 const connectionPool = mysql.createPool({
 	host: 'localhost',
   	user: 'root',
-  	database: 'mydb',
+  	database: 'petstore_schema',
 	password: 'MoistMiser!@3'
 });
 
@@ -38,5 +38,9 @@ export const githubAuth = github(auth, {
 	clientId: import.meta.env.GITHUB_CLIENT_ID,
 	clientSecret: import.meta.env.GITHUB_CLIENT_SECRET
 });
+
+export const googleAuth = google(auth, {
+
+})
 
 export type Auth = typeof auth;
