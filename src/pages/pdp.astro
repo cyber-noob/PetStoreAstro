@@ -78,9 +78,9 @@ var dummy_product = {
         >
       </div>
     </div>
-    </div>
+  </div>
 
-    <div class="container">
+  <div class="container">
     <div class="details">
       <div class="content">
         <h2>
@@ -121,7 +121,6 @@ var dummy_product = {
         <button>Buy Now</button>
       </div>
     </div>
-    
   </div>
 </Layout>
 
@@ -130,44 +129,58 @@ var dummy_product = {
 
   .container {
     position: center;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: stretch;
     width: 100%;
     height: 80%;
     background: #fff;
-    margin-left: 5%;
+    margin-left: 3%;
+    margin-top: 10%;
   }
 
   .container .imgBx {
     width: 50%;
+    height: 70%;
     background: #ffffff;
     transition: 0.3s linear;
   }
 
-  /* .container .imgBx:before {
-    content: "Nike";
-    position: absolute;
-    top: 0px;
-    left: 24px;
-    color: #ffffff;
-    opacity: 0.2;
-    font-size: 8em;
-    font-weight: 800;
-  } */
-
   .container .imgBx img {
     position: relative;
-    width: 100%;
+    width: 70%;
     transition: 0.9s linear;
   }
 
   .container .details {
+    position: relative;
+    width: 50%;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-left: 3%;
+  }
+
+  .container .content {
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 100%;
     box-sizing: border-box;
     margin-left: 5%;
+    margin-top: 2%;
+  }
+
+  .button-container {
+    position: relative;
+    align-items: stretch;
+    width: 100%;
+    display: flex;
+  }
+
+  .button-container button {
+    align-items: center;
+    margin-left: 1%;
   }
 
   .container .details h2 {
@@ -240,14 +253,42 @@ var dummy_product = {
   /* responsive */
   @media (max-width: 480px) {
     .container {
-      position: center;
-      justify-content: center;
+      display: flex;
       flex-wrap: wrap;
       align-items: center;
       width: 100%;
       height: 100%;
       background: #fff;
     }
+
+    .container .details {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .container .content {
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 3%;
+    }
+
+    .button-container {
+      position: relative;
+      align-items: stretch;
+      justify-content: center;
+      width: 100%;
+      display: flex;
+      margin: 3%;
+    }
+
+    .button-container button {
+      align-items: center;
+      margin-right: 3%;
+    }
+
     .container .imgBx {
       box-sizing: border-box;
       width: 100% !important;
@@ -255,36 +296,18 @@ var dummy_product = {
       text-align: center;
       align-items: center;
       align-content: center;
-      padding: 10%;
-      margin-right: 10%;
+      margin: 10%;
     }
     .container .imgBx img {
-      max-width: 100%;
+      width: 100%;
       align-items: center;
       align-content: center;
     }
-    .details {
-      width: 100% !important;
-      height: auto;
-      margin-left: 15%;
-      margin-right: 15%;
-      margin-top: 5%;
-    }
+
     .container .details p {
       margin-left: 0;
       max-width: 100%;
     }
-  }
-
-  .button-container {
-    position: relative;
-    align-items: stretch;
-    width: 100%;
-  }
-
-  .button-container button {
-    align-items: center;
-    margin-left: 1%;
   }
 
   footer {
