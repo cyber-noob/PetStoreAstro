@@ -1,81 +1,93 @@
 ---
-import { imageConfig } from "astro:assets";
-import Card from "../components/Card.astro";
-import Layout from "../layouts/Layout.astro";
-import ProductFilter from "../components/PLP/ProductFilter.astro";
+import Card from '../components/Card.astro';
+import Layout from '../layouts/Layout.astro';
+import axios from "../../node_modules/axios";
+import { line } from '@lucia-auth/oauth/providers';
 
-const items = [
-  {
-    title: "cat",
-    body: "somethin ...",
-    href: "/#",
-  },
+var query = Astro.url.searchParams.get('query') || ''
+console.log('query -' + query)
+var items = []
+//Fire api request
+const getSearchResults = async (val: string) => {
+  await axios({
+    url: "/petstore_proxy/search/products",
+    method: "get",
+    baseURL: "http://localhost:4321",
+    params: {
+      query: val,
+    },
+  })
+    .then((response) => {
+      // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
+      
+      //Extarct data and assign to items
+      const children = response.data.root.children
+      for(const child of children) {
+        items.push(child)
+      }
+      // console.log('items == ', items)
+    })
+    .catch((error) => {
+      console.log("[search] " + error);
+    });
+};
 
-  {
-    title: "cat",
-    body: "somethin ...",
-    href: "/#",
-  },
+  if (query != '') {
+    await getSearchResults(query)
+  } else {
+    console.log('no search term passed')
+  }
 
-  {
-    title: "cat",
-    body: "somethin ...",
-    href: "/#",
-  },
+var result = []
+items.forEach(item => {
+  let map = new Map(Object.entries(item));
+  const title = new Map(Object.entries(map.get('fields'))).get('title');
+  const age = new Map(Object.entries(map.get('fields'))).get('age');
+  const weight = new Map(Object.entries(map.get('fields'))).get('weight');
+  const lineage = new Map(Object.entries(map.get('fields'))).get('lineage');
+  const price = new Map(Object.entries(map.get('fields'))).get('price');
+  const color = new Map(Object.entries(map.get('fields'))).get('color');
 
-  {
-    title: "cat",
-    body: "somethin ...",
-    href: "/#",
-  },
-
-  {
-    title: "cat",
-    body: "somethin ...",
-    href: "/#",
-  },
-
-  {
-    title: "cat",
-    body: "somethin ...",
-    href: "/#",
-  },
-];
+  let res = {
+    'Title': title, 
+    'Age': age,
+    'Weight': weight,
+    'Lineage': lineage,
+    'Price': price,
+    'Color': color
+  }
+  result.push(res)
+})
 ---
 
 <Layout title="Search results for Dogs." productsCount="2358 products found">
   <div class="side-to-side">
-  <ProductFilter/>
-  <div class="grid-parent">
-    {
-      items.map((item) => (
-        <Card
-          clazz="grid-child"
-          id="card"
-          title="cat"
-          body="somethin ..."
-          href="/#"
-        />
-      ))
-    }
-  </div>
+    <div class="grid-parent">
+        {
+          result.map((item) => (
+            <Card clazz="grid-child" id="card" item= { item }/>
+          )
+          )
+        }
+    </div>
   </div>
 </Layout>
 
 <style>
-  .grid-parent { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    grid-gap: 10px; 
+.grid-parent {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 10px;
     width: 100%;
-    padding-right: 2%; 
-} 
-.grid-child { 
-    margin: 10px; 
+    padding-right: 2%;
+}
+
+.grid-child {
+    margin: 10px;
 }
 
 .side-to-side {
-  display: flex;
-  align-items: stretch;
+    display: flex;
+    align-items: stretch;
 }
 </style>

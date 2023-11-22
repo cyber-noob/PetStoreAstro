@@ -1,5 +1,6 @@
 ---
-import SearchBar from '../components/SearchBar.astro';
+import SearchBar from "../components/SearchBar.astro";
+
 interface Props {
   title: string;
   productsCount: string;
@@ -16,15 +17,14 @@ const { title, productsCount } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title id="c_tity">{title}</title>
 
     <!-- Flowbite components -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
       rel="stylesheet"
     />
-  </head>
-  <body>
+  </head><body>
     <!-- Common top navbar -->
 
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
@@ -167,7 +167,7 @@ const { title, productsCount } = Astro.props;
       </div>
     </nav>
 
-    <SearchBar/>
+    <SearchBar />
 
     <slot />
 
@@ -176,38 +176,39 @@ const { title, productsCount } = Astro.props;
       src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"
     ></script>
   </body>
-</html>
-<style is:global>
-  :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      rgb(0, 0, 0) 60%
-    );
-  }
-  html {
-    font-family: system-ui, sans-serif;
-    background: #ffffff;
-    background-size: 100%;
-  }
 
-  body {
-    width: 100%;
-    height: 100%;
-  }
-  code {
-    font-family:
-      Menlo,
-      Monaco,
-      Lucida Console,
-      Liberation Mono,
-      DejaVu Sans Mono,
-      Bitstream Vera Sans Mono,
-      Courier New,
-      monospace;
-  }
-</style>
+  <style is:global>
+    :root {
+      --accent: 136, 58, 234;
+      --accent-light: 224, 204, 250;
+      --accent-dark: 49, 10, 101;
+      --accent-gradient: linear-gradient(
+        45deg,
+        rgb(var(--accent)),
+        rgb(var(--accent-light)) 30%,
+        rgb(0, 0, 0) 60%
+      );
+    }
+    html {
+      font-family: system-ui, sans-serif;
+      background: #ffffff;
+      background-size: 100%;
+    }
+
+    body {
+      width: 100%;
+      height: 100%;
+    }
+    code {
+      font-family:
+        Menlo,
+        Monaco,
+        Lucida Console,
+        Liberation Mono,
+        DejaVu Sans Mono,
+        Bitstream Vera Sans Mono,
+        Courier New,
+        monospace;
+    }
+  </style>
+</html>
