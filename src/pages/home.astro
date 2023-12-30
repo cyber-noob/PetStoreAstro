@@ -1,0 +1,74 @@
+---
+import axios from "axios";
+import Layout from "../layouts/Layout.astro";
+
+var items;
+
+await axios({
+  url: "/api/breeds/image/random/50",
+  method: "get",
+  baseURL: "https://dog.ceo",
+})
+  .then((response) => (items = response.data.message))
+  .catch((e) => console.log(e));
+
+const map = {
+  0: [],
+  1: [],
+  2: [],
+  3: [],
+}
+
+var j = 0;
+const slice = Math.floor(items.length / 4);
+for(var i = 0; i < items.length; i++) {
+  map[j].push(items[i])  
+  if((i + 1) % slice == 0 && j < 3) {
+    j+=1
+  }
+}
+
+---
+
+<Layout title="">
+  <div class="gg-container">
+    <div class="gg-box" id="col-1">
+      {map[0].map((item) => <img src={item} />)}
+    </div>
+    <div class="gg-box" id="col-2">
+      {map[1].map((item) => <img src={item} />)}
+    </div>
+    <div class="gg-box" id="col-3">
+      {map[2].map((item) => <img src={item} />)}
+    </div>
+    <div class="gg-box" id="col-4">
+      {map[3].map((item) => <img src={item} />)}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { animate } from "motion";
+
+  animate(
+    "#col-1,#col-3",
+    { y: -500 },
+    {
+      duration: 10,
+      repeat: Infinity,
+      direction: "alternate-reverse",
+      easing: ["ease-in", "ease-out"],
+    }
+  );
+
+  animate(
+    "#col-2,#col-4",
+    { y: -500 },
+    {
+      duration: 5,
+      repeat: Infinity,
+      direction: "alternate-reverse",
+      easing: ["ease-in", "ease-out"],
+    }
+  );
+</script>

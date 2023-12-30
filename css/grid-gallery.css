@@ -1,0 +1,94 @@
+.gg-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 3%;
+  overflow: hidden;
+}
+
+.gg-container *[data-theme="dark"] {
+  --main-color: #ddd;
+  --secondary-color: #eee;
+  --txt-color: #111;
+  --img-bg-color: rgba(20, 20, 20, 0.9);
+  --backdrop-color: rgba(30, 30, 30, 0.9);
+}
+
+.gg-box {
+  flex: 25%;
+  max-width: 25%;
+}
+
+.gg-box img {
+  vertical-align: middle;
+  width: 100%;
+  padding: 10px;
+}
+
+.gg-box img:hover {
+  opacity: 0.98;
+}
+
+#gg-screen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: var(--backdrop-color);
+  z-index: 9999;
+  text-align: center;
+}
+
+#gg-screen .gg-image {
+  height: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gg-screen .gg-image img {
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+.gg-btn {
+  width: 35px;
+  height: 35px;
+  background: var(--main-color);
+  color: var(--txt-color);
+  text-align: center;
+  line-height: 35px;
+  cursor: pointer;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  font-size: 20px;
+  box-sizing: border-box;
+  padding-left: 2px;
+  position: fixed;
+  bottom: 10px;
+}
+
+.gg-btn:hover {
+  background: var(--secondary-color);
+}
+
+.gg-close {
+  top: 10px;
+}
+
+.gg-close,
+.gg-next {
+  right: 10px;
+}
+
+.gg-prev {
+  right: 50px;
+}
+
+.gg-prev,
+.gg-next {
+  bottom: 10px;
+}

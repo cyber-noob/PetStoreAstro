@@ -1,5 +1,5 @@
 <div class="search-container">
-  <form>
+  <form class="searchbar">
     <label
       for="default-search"
       class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -42,9 +42,14 @@
 
 <style>
   .search-container {
-    margin-left: 20%;
-    margin-right: 20%;
-    margin-top: 5%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .searchbar {
+    width: 65%;
   }
 
   /* responsive */

@@ -3,10 +3,9 @@ import SearchBar from "../components/SearchBar.astro";
 
 interface Props {
   title: string;
-  productsCount: string;
 }
 
-const { title, productsCount } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,23 +23,17 @@ const { title, productsCount } = Astro.props;
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
       rel="stylesheet"
     />
-  </head><body>
+    <link rel="stylesheet" type="text/css" href="css/grid-gallery.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="css/grid-gallery.min.css" /> -->
+  </head>
+  <body>
     <!-- Common top navbar -->
 
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
-      <div
-        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
-      >
-        <a href="https://flowbite.com/" class="flex items-center">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            class="h-8 mr-3"
-            alt="Flowbite Logo"
-          />
-          <span
-            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-            >Flowbite</span
-          >
+      <div class="flex justify-between p-4">
+        <a href="https://flowbite.com/" class="flex float-left">
+          <img src="/doggo.gif" class="gif" />
+          <span class="title">Petsy.INC</span>
         </a>
         <div class="flex items-center md:order-2">
           <button
@@ -175,6 +168,9 @@ const { title, productsCount } = Astro.props;
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"
     ></script>
+
+    <script type="text/javascript" src="js/grid-gallery.js"></script>
+    <!-- <script type="text/javascript" src="js/grid-gallery.min.js"></script> -->
   </body>
 
   <style is:global>
@@ -209,6 +205,23 @@ const { title, productsCount } = Astro.props;
         Bitstream Vera Sans Mono,
         Courier New,
         monospace;
+    }
+
+    .title {
+      font: courier;
+      font-size: x-large;
+      font-weight: bold;
+      font-style: italic;
+      align-self: center;
+      color: rgb(0, 118, 227);
+    }
+
+    .gif {
+      display: flex;
+      width: 20%;
+      height: auto;
+      float: left;
+      padding-right: 3%;
     }
   </style>
 </html>

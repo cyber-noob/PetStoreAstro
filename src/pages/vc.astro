@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="" productsCount="">
+  <div class="header">
+    <h1>Book A Video Call</h1>
+    <h3>
+      with us and virtually interact with your soon to be friendly lil companion
+    </h3>
+
+    <button
+      id="book"
+      type="button"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-5"
+    >
+      Book Now
+    </button>
+  </div>
+  <div class="content">
+    <h1>How it works?</h1>
+  </div>
+</Layout>
+
+<style>
+  .header {
+    position: relative;
+    display: block;
+    max-height: 30%;
+    text-align: center;
+    vertical-align: center;
+    padding-top: 3%;
+  }
+
+  .header h1 {
+    width: max-width;
+    height: 20%;
+    font-size: x-large;
+    font-weight: bolder;
+    color: rgb(0, 153, 255);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .header h3 {
+    width: max-width;
+    height: 10%;
+    font-size: medium;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+  }
+
+  .content {
+    position: relative;
+    display: flex;
+    text-align: left;
+    vertical-align:center;
+    justify-content: left;
+    padding-top: 3%;
+  }
+
+  .content h1 {
+    width: max-width;
+    height: 20%;
+    font-size: x-large;
+    font-weight: bolder;
+    color: rgb(0, 153, 255);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-left: 5%;
+  }
+</style>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  import pay from '../lib/razorpay';
+
+  const bookButton = document.getElementById('book')
+  pay(200, bookButton)
+</script>

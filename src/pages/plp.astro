@@ -2,7 +2,6 @@
 import Card from '../components/Card.astro';
 import Layout from '../layouts/Layout.astro';
 import axios from "../../node_modules/axios";
-import { line } from '@lucia-auth/oauth/providers';
 
 var query = Astro.url.searchParams.get('query') || ''
 console.log('query -' + query)
@@ -10,9 +9,9 @@ var items = []
 //Fire api request
 const getSearchResults = async (val: string) => {
   await axios({
-    url: "/petstore_proxy/search/products",
+    url: "/search/products",
     method: "get",
-    baseURL: "http://localhost:4321",
+    baseURL: "http://localhost:8082",
     params: {
       query: val,
     },
@@ -41,12 +40,14 @@ const getSearchResults = async (val: string) => {
 var result = []
 items.forEach(item => {
   let map = new Map(Object.entries(item));
-  const title = new Map(Object.entries(map.get('fields'))).get('title');
-  const age = new Map(Object.entries(map.get('fields'))).get('age');
-  const weight = new Map(Object.entries(map.get('fields'))).get('weight');
-  const lineage = new Map(Object.entries(map.get('fields'))).get('lineage');
-  const price = new Map(Object.entries(map.get('fields'))).get('price');
-  const color = new Map(Object.entries(map.get('fields'))).get('color');
+  let fields = new Map(Object.entries(map.get('fields')));
+  const title = fields.get('title');
+  const age = fields.get('age');
+  const weight = fields.get('weight');
+  const lineage = fields.get('lineage');
+  const price = fields.get('price');
+  const color = fields.get('color');
+  const id = fields.get('idProducts_Animal');
 
   let res = {
     'Title': title, 
@@ -54,7 +55,8 @@ items.forEach(item => {
     'Weight': weight,
     'Lineage': lineage,
     'Price': price,
-    'Color': color
+    'Color': color,
+    'id': id
   }
   result.push(res)
 })
@@ -65,7 +67,7 @@ items.forEach(item => {
     <div class="grid-parent">
         {
           result.map((item) => (
-            <Card clazz="grid-child" id="card" item= { item }/>
+            <Card item = { item }/>
           )
           )
         }

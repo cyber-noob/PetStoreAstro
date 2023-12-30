@@ -1,26 +1,25 @@
 ---
-import { Button } from '@mui/material';
+import { Button } from "@mui/material";
 
 interface Props {
   item: object;
-  id: string;
-  clazz: string;
 }
 
-const { item, id, clazz } = Astro.props;
+const { item } = Astro.props;
 const cardData = new Map(Object.entries(item));
 const title = cardData.get("Title");
 const price = cardData.get("Price");
+const id = cardData.get("id");
+console.log('id -> ' + id);
+
 cardData.delete("Title");
 cardData.delete("Price");
+cardData.delete("id");
 ---
 
-<div class="card-parent">
-  <div
-    id={id}
-    class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-  >
-    <a href="#">
+<div class="card-parent" id="card-parent">
+  <div id={id} class="card-child" onclick= "location.href = '/pdp?id=' + id">
+    <a>
       <img
         class="p-8 rounded-t-lg"
         src="https://www.thesprucepets.com/thmb/_1iWuPzSPKMItHCErr55PRPbc2U=/800x0/filters:no_upscale():strip_icc()/40386520_272666870012786_5732696489881099002_n-5b98360ac9e77c0050fa8a73.jpg"
@@ -64,7 +63,7 @@ cardData.delete("Price");
 
         <div class="grid-parent">
           <div class="grid-child">
-            <Button variant="contained" size='small'>Add to Cart</Button>
+            <Button variant="contained" size="small">Add to Cart</Button>
           </div>
         </div>
       </div>
@@ -76,6 +75,18 @@ cardData.delete("Price");
   .card-parent {
     padding-top: 10%;
     height: 80%;
+  }
+  .card-child {
+    width: 100%;
+    max-width: 24rem /* 384px */;
+    background-color: white;
+    border-color: gray;
+    border-radius: 0.5rem /* 8px */;
+    --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),
+      0 1px 2px -1px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
   .link-card {
     list-style: none;
@@ -152,3 +163,19 @@ cardData.delete("Price");
     color: rgb(0, 0, 0);
   }
 </style>
+
+<script>
+  let pdpcards = document.getElementsByClassName("card-parent");
+  console.log('cadds >> ' + pdpcards);
+  pdpcards.forEach((card) => {
+    card.addEventListener(
+      "click",
+      async (event) => {
+        event.preventDefault();
+        console.log('card -> ' + card.getAtribute('id'))
+        location.href = "/pdp?id=" + card.getAtribute('id');
+      },
+      false
+    );
+  });
+</script>
