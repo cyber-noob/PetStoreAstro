@@ -30,7 +30,7 @@ for(var i = 0; i < items.length; i++) {
 
 ---
 
-<Layout title="">
+<Layout title="home">
   <div class="gg-container">
     <div class="gg-box" id="col-1">
       {map[0].map((item) => <img src={item} />)}
@@ -46,6 +46,18 @@ for(var i = 0; i < items.length; i++) {
     </div>
   </div>
 </Layout>
+
+<style>
+  img {
+    border: 10px solid;
+    border-color: black;
+  }
+  
+  .gg-container {
+    border-top: 10px solid;
+    border-color: black;
+  }
+</style>
 
 <script>
   import { animate } from "motion";

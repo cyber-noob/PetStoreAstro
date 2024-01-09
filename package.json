@@ -15,6 +15,7 @@
     "@astrojs/vue": "^3.0.4",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fancyapps/ui": "^5.0.33",
     "@lucia-auth/adapter-mysql": "^2.0.0",
     "@lucia-auth/oauth": "^3.2.0",
     "@mui/icons-material": "^5.14.9",

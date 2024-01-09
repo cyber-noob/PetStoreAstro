@@ -1,0 +1,233 @@
+---
+interface Props {
+  photos: string[];
+}
+
+const { photos } = Astro.props;
+---
+
+<div
+  id="productContainer"
+  class="mb-14
+          md:max-w-lg
+          grid
+          gap-2
+          md:grid-cols-[106px_minmax(0px,_1fr)]"
+>
+  <div id="productCarousel" class="f-carousel md:order-last">
+    {
+      photos.map((photo) => (
+        <div
+          class="f-carousel__slide"
+          data-thumb-src={photo}
+          data-fancybox="gallery"
+          data-src={photo}
+        >
+          <img alt="" data-lazy-src={photo} />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  #productContainer {
+    --product-view-height: 680px;
+  }
+
+  #productContainer .f-thumbs.is-classic.is-vertical {
+    height: var(--product-view-height, 100%);
+  }
+
+  /*
+  Thumbnails
+*/
+
+  .f-thumbs.is-classic {
+    --f-thumb-width: 90px;
+    --f-thumb-height: 135px;
+
+    --f-thumb-gap: 0.5rem;
+
+    --f-thumb-opacity: 1;
+    --f-thumb-selected-opacity: 0.2;
+
+    --f-button-color: #0d0c22;
+    --f-button-hover-color: #ff3520;
+
+    --f-button-bg: #fff;
+    --f-button-hover-bg: #fff;
+    --f-button-active-bg: #fff;
+  }
+
+  .f-thumbs.is-classic .f-thumbs__slide__img {
+    object-fit: contain;
+  }
+
+  .f-thumbs.is-classic .f-carousel__nav .f-button[disabled] {
+    display: none;
+  }
+
+  /*
+  Main carousel
+*/
+  #productCarousel {
+    --f-carousel-spacing: 0;
+
+    --f-button-width: 48px;
+    --f-button-height: 48px;
+    --f-button-border-radius: 0;
+
+    --f-button-color: #0d0c22;
+    --f-button-hover-color: #ff3520;
+
+    --f-button-bg: #fff;
+    --f-button-hover-bg: #fff;
+    --f-button-active-bg: #fff;
+
+    --f-button-svg-width: 28px;
+    --f-button-svg-height: 28px;
+
+    --f-button-svg-stroke-width: 1;
+    --f-button-svg-filter: none;
+
+    height: var(--product-view-height);
+  }
+
+  #productCarousel .f-carousel__slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  #productCarousel .f-carousel__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #productCarousel .f-carousel__nav {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  @media (hover: hover) {
+    #productCarousel:hover .f-carousel__nav {
+      opacity: 1;
+    }
+  }
+
+  /*
+  Fancybox
+*/
+
+  .fancybox__container {
+    --fancybox-color: #0d0c22;
+    --fancybox-bg: #fff;
+    --f-spinner-color-1: rgba(0, 0, 0, 0.1);
+    --f-spinner-color-2: rgba(17, 24, 28, 0.8);
+  }
+
+  .fancybox__toolbar,
+  .fancybox__nav {
+    --f-button-width: 60px;
+    --f-button-height: 60px;
+    --f-button-border-radius: 0;
+
+    --f-button-color: #0d0c22;
+    --f-button-hover-color: #ff3520;
+
+    --f-button-bg: #fff;
+    --f-button-hover-bg: #fff;
+    --f-button-active-bg: #fff;
+
+    --f-button-svg-width: 32px;
+    --f-button-svg-height: 32px;
+
+    --f-button-svg-stroke-width: 1;
+    --f-button-svg-filter: none;
+  }
+
+  .fancybox__nav {
+    --f-button-next-pos: 0;
+    --f-button-prev-pos: 0;
+  }
+</style>
+
+<script>
+  import { Carousel, Fancybox } from "@fancyapps/ui/";
+  import "@fancyapps/ui/dist/carousel/carousel.css";
+  import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
+  import { Thumbs } from "@fancyapps/ui/dist/carousel/carousel.thumbs.esm.js";
+  import "@fancyapps/ui/dist/carousel/carousel.thumbs.css";
+
+  new Carousel(
+    document.getElementById("productCarousel"),
+    {
+      infinite: false,
+      Dots: false,
+      Thumbs: {
+        type: "classic",
+        Carousel: {
+          slidesPerPage: 1,
+          Navigation: true,
+          center: true,
+          fill: true,
+          dragFree: true,
+        },
+      },
+    },
+    { Thumbs }
+  );
+
+  Fancybox.bind('[data-fancybox="gallery"]', {
+    idle: false,
+    compact: false,
+    dragToClose: false,
+
+    animated: false,
+    showClass: "f-fadeSlowIn",
+    hideClass: false,
+
+    Carousel: {
+      infinite: false,
+    },
+
+    Images: {
+      zoom: false,
+      Panzoom: {
+        maxScale: 1.5,
+      },
+    },
+
+    Toolbar: {
+      absolute: true,
+      display: {
+        left: [],
+        middle: [],
+        right: ["close"],
+      },
+    },
+
+    Thumbs: {
+      type: "classic",
+      Carousel: {
+        axis: "x",
+
+        slidesPerPage: 1,
+        Navigation: true,
+        center: true,
+        fill: true,
+        dragFree: true,
+
+        breakpoints: {
+          "(min-width: 640px)": {
+            axis: "y",
+          },
+        },
+      },
+    },
+  });
+</script>

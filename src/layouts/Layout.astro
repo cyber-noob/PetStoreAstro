@@ -4,12 +4,15 @@ import SentimentSatisfiedAltOutlinedIcon from "@mui/icons-material/SentimentSati
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import Chip from "@mui/material/Chip/Chip";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+const session = await Astro.locals.auth.validate();
+console.log('checking session - ' + session);
 ---
 
 <!doctype html>
@@ -33,7 +36,12 @@ const { title } = Astro.props;
   <body>
     <!-- Common top navbar -->
     <div class="main">
-      <div class="logo">
+      <div
+        class="logo"
+        onclick="location.href = '/home'"
+        onmouseover=""
+        style="cursor: pointer;"
+      >
         <img src="/doggo.gif" class="gif" />
         <a class="title">Petsy.INC</a>
       </div>
@@ -82,15 +90,31 @@ const { title } = Astro.props;
       </div>
 
       <div class="account-icons">
-        <div>
+        <div id="profile" onmouseover="" style="cursor: pointer;">
           <SentimentSatisfiedAltOutlinedIcon color="primary" />
           <div class="icon-defs">PROFILE</div>
         </div>
-        <div>
-          <FavoriteBorderOutlinedIcon color="primary" />
+        <div class="wishlist">
+          <div
+            class="wishlist-deck"
+            onclick="location.href = '/wishlist'"
+            onmouseover=""
+            style="cursor: pointer;"
+          >
+            <div>
+              <FavoriteBorderOutlinedIcon color="primary" />
+            </div>
+            <!-- <div class="filled-wishlist">
+              <FavoriteIcon color="primary" />
+            </div> -->
+          </div>
           <div class="icon-defs">WISHLIST</div>
         </div>
-        <div>
+        <div
+          onclick="location.href = '/cart'"
+          onmouseover=""
+          style="cursor: pointer;"
+        >
           <ShoppingBagOutlinedIcon color="primary" />
           <div class="icon-defs">CART</div>
         </div>
@@ -119,9 +143,10 @@ const { title } = Astro.props;
         45deg,
         rgb(var(--accent)),
         rgb(var(--accent-light)) 30%,
-        rgb(0, 0, 0) 60%
+        rgb(0, 0, 0) 60%;
       );
     }
+
     html {
       font-family: system-ui, sans-serif;
       background: #ffffff;
@@ -168,6 +193,7 @@ const { title } = Astro.props;
       align-items: center;
       flex: 0 0 auto;
       overflow: hidden;
+      height: 20%;
     }
 
     .logo {
@@ -193,6 +219,7 @@ const { title } = Astro.props;
       font-size: medium;
       font-weight: bold;
       color: rgb(0, 0, 0);
+      cursor: pointer;
     }
 
     .items > * {
@@ -201,6 +228,7 @@ const { title } = Astro.props;
       font-size: medium;
       font-weight: bold;
       color: rgb(183, 183, 183);
+      cursor: auto;
     }
 
     .highlighter {
@@ -245,12 +273,24 @@ const { title } = Astro.props;
     }
   </style>
 
-  <script>
-    if (window.location.href.includes("/plp")) {
-      window.onload = function () {
-        document.getElementById("exists").style.color = "rgb(0, 136, 255)";
-        document.getElementById("highlighter").style.display = "block";
-      };
+  <script define:vars={{session}}>
+
+  if (window.location.href.includes("/plp")) {
+    window.onload = function () {
+      document.getElementById("exists").style.color = "rgb(0, 136, 255)";
+      document.getElementById("highlighter").style.display = "block";
+    };
+  }
+
+  // if (window.location.href.includes("/wishlist")) {
+  //   window.onload = function () {};
+  // }
+
+  document.getElementById("profile").addEventListener("click", (e) => {
+    console.log("clicked on profile");
+    if(!session) {
+      location.href = '/';
     }
+  })
   </script>
 </html>

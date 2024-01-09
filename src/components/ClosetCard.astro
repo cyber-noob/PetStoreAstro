@@ -1,0 +1,229 @@
+---
+import ClearIcon from '@mui/icons-material/Clear';
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+
+interface Props {
+  item: object;
+}
+
+const { item } = Astro.props;
+const cardData = new Map(Object.entries(item));
+const title = cardData.get("Title");
+const price = cardData.get("Price");
+const id = cardData.get("id");
+console.log("cartcard id -> " + id);
+
+cardData.delete("Title");
+cardData.delete("Price");
+cardData.delete("id");
+---
+
+<div class="card-parent" id="card-parent">
+  <div id={id} class="card-child">
+    <a class="row-1">
+      <img
+        src="https://www.thesprucepets.com/thmb/_1iWuPzSPKMItHCErr55PRPbc2U=/800x0/filters:no_upscale():strip_icc()/40386520_272666870012786_5732696489881099002_n-5b98360ac9e77c0050fa8a73.jpg"
+        alt="product image"
+      />
+    </a>
+    <div class="row-2">
+      <h2 class="title-font">
+        {title}
+      </h2>
+
+      <div class="table">
+        <div class="left">
+          {
+            Array.from(cardData.keys()).map((key) => (
+              <h3 class="key">{key}: </h3>
+            ))
+          }
+        </div>
+
+        <div class="right">
+          {
+            Array.from(cardData.values()).map((key) => (
+              <h3 class="value">{key} </h3>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="row-3">
+        <a class="price">INR {price}</a>
+
+        <div class="buttons">
+          <button class="wishlist">
+            <ClearIcon />
+            REMOVE
+          </button>
+          <button class="remove">
+            <ShoppingBagOutlinedIcon />
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card-parent {
+    width: 100%;
+    margin: 3% 8%;
+    background-color: white;
+    --elevation: 0;
+    --epx: calc(var(--elevation) * 1px);
+
+    /* these 2 shadows serve as a border for  0-1 elevation    */
+    --shadow1: 0 0 1px rgba(0, 0, 0, 0.1);
+    --shadow2: 0 1px 2px rgba(0, 0, 0, 0.08);
+
+    --offset-y: calc(var(--epx) + 1px);
+    --blur: calc(var(--epx) * 2);
+    --spread: calc(var(--epx) * 0.3);
+    --shadow3: 0 var(--offset-y) var(--blur) var(--spread) rgba(0, 0, 0, 0.2);
+
+    box-shadow: var(--shadow1), var(--shadow2), var(--shadow3);
+  }
+  .card-child {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  img {
+    padding: 3%;
+    border-top-left-radius: 0.5rem /* 8px */;
+    border-top-right-radius: 0.5rem /* 8px */;
+    max-height: 400px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  p {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+  .link-card:is(:hover, :focus-within) {
+    background-position: 0;
+    background-image: var(--accent-gradient);
+  }
+  .link-card:is(:hover, :focus-within) h2 {
+    color: rgb(var(--accent-light));
+  }
+  .title-font {
+    font-weight: bolder;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+  }
+
+  .key {
+    font-weight: bold;
+    color: rgb(60, 60, 60);
+  }
+
+  .value {
+    font-weight: bold;
+    color: rgb(124, 124, 124);
+  }
+
+  .price {
+    font-weight: bolder;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+  }
+
+  .row-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .row-2 > .table {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .row-2 > .table > .left > * {
+    margin-bottom: 10%;
+  }
+
+  .row-2 > .table > .right > * {
+    margin-bottom: 10%;
+  }
+
+  .row-3 {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: flex-start;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .row-3 > .price {
+    padding-left: 10%;
+    margin-bottom: 2%;
+    margin-top: 1%;
+    font-size: xx-large;
+    font-style: italic;
+    font-weight: bold;
+    color: rgba(0, 166, 255, 0.613);
+  }
+
+  .row-3 > .buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .wishlist {
+    outline: 3px solid;
+    outline-color: rgb(0, 149, 255);
+    font-style: italic;
+    font-weight: bolder;
+    font-size: small;
+    color: rgb(0, 149, 255);
+    height: 30px;
+    width: 200px;
+  }
+
+  .remove {
+    outline: 3px solid;
+    outline-color: rgb(255, 255, 255);
+    font-style: italic;
+    font-weight: bolder;
+    font-size: small;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 149, 255);
+    height: 30px;
+    width: 300px;
+  }
+</style>
+
+<script>
+  let pdpcards = document.getElementsByClassName("row-1");
+
+  Array.from(pdpcards).forEach((card) => {
+    card.addEventListener(
+      "click",
+      async (event) => {
+        event.stopPropagation();
+        console.log("card -> " + card.parentElement.getAttribute("id"));
+        location.href = "/pdp?id=" + card.parentElement.getAttribute("id");
+      },
+      false
+    );
+  });
+</script>

@@ -11,7 +11,7 @@ const session = await Astro.locals.auth.validate();
 if (session) return Astro.redirect("/", 302); // redirect to profile page
 ---
 
-<Layout title="Hey Login" productsCount="">
+<Layout title="Login">
   <div
     class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700"
   >
@@ -26,7 +26,7 @@ if (session) return Astro.redirect("/", 302); // redirect to profile page
     <ul class="my-4 space-y-3">
       <li>
         <a
-          href="#"
+          href="/login/github"
           class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
         >
           <GoogleIcon sx={{color: red[500]}}/>

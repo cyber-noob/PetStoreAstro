@@ -1,11 +1,85 @@
 ---
-import Card from '../components/Card.astro';
-import Layout from '../layouts/Layout.astro';
+import Card from "../components/Card.astro";
+import Layout from "../layouts/Layout.astro";
 import axios from "../../node_modules/axios";
 
-var query = Astro.url.searchParams.get('query') || ''
-console.log('query -' + query)
-var items = []
+var query = Astro.url.searchParams.get("query") || "";
+console.log("query -" + query);
+var items = [];
+const localDev = true;
+
+if (localDev) {
+  items = [
+    {
+      id: "id:namespace:products::5",
+      relevance: 0.5412417054176331,
+      source: "products",
+      fields: {
+        sddocname: "products",
+        documentid: "id:namespace:products::5",
+        idProducts_Animal: "5",
+        title:
+          '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
+        description:
+          "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
+        age: "4 month",
+        lineage: "normal",
+        weight: "5 kg",
+        price: "23000",
+        sex: "Male",
+        color: "black n white",
+        species: "Dog",
+        breed: "Golden Retriever",
+      },
+    },
+
+    {
+      id: "id:namespace:products::5",
+      relevance: 0.5412417054176331,
+      source: "products",
+      fields: {
+        sddocname: "products",
+        documentid: "id:namespace:products::5",
+        idProducts_Animal: "5",
+        title:
+          '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
+        description:
+          "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
+        age: "4 month",
+        lineage: "normal",
+        weight: "5 kg",
+        price: "23000",
+        sex: "Male",
+        color: "black n white",
+        species: "Dog",
+        breed: "Golden Retriever",
+      },
+    },
+
+    {
+      id: "id:namespace:products::5",
+      relevance: 0.5412417054176331,
+      source: "products",
+      fields: {
+        sddocname: "products",
+        documentid: "id:namespace:products::5",
+        idProducts_Animal: "5",
+        title:
+          '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
+        description:
+          "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
+        age: "4 month",
+        lineage: "normal",
+        weight: "5 kg",
+        price: "23000",
+        sex: "Male",
+        color: "black n white",
+        species: "Dog",
+        breed: "Golden Retriever",
+      },
+    },
+  ];
+}
 //Fire api request
 const getSearchResults = async (val: string) => {
   await axios({
@@ -18,11 +92,11 @@ const getSearchResults = async (val: string) => {
   })
     .then((response) => {
       // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
-      
+
       //Extarct data and assign to items
-      const children = response.data.root.children
-      for(const child of children) {
-        items.push(child)
+      const children = response.data.root.children;
+      for (const child of children) {
+        items.push(child);
       }
       // console.log('items == ', items)
     })
@@ -31,65 +105,60 @@ const getSearchResults = async (val: string) => {
     });
 };
 
-  if (query != '') {
-    await getSearchResults(query)
-  } else {
-    console.log('no search term passed')
-  }
+if (query != "") {
+  await getSearchResults(query);
+} else {
+  console.log("no search term passed");
+}
 
-var result = []
-items.forEach(item => {
+var result = [];
+items.forEach((item) => {
   let map = new Map(Object.entries(item));
-  let fields = new Map(Object.entries(map.get('fields')));
-  const title = fields.get('title');
-  const age = fields.get('age');
-  const weight = fields.get('weight');
-  const lineage = fields.get('lineage');
-  const price = fields.get('price');
-  const color = fields.get('color');
-  const id = fields.get('idProducts_Animal');
+  let fields = new Map(Object.entries(map.get("fields")));
+  const title = fields.get("title");
+  const age = fields.get("age");
+  const weight = fields.get("weight");
+  const lineage = fields.get("lineage");
+  const price = fields.get("price");
+  const color = fields.get("color");
+  const id = fields.get("idProducts_Animal");
 
   let res = {
-    'Title': title, 
-    'Age': age,
-    'Weight': weight,
-    'Lineage': lineage,
-    'Price': price,
-    'Color': color,
-    'id': id
-  }
-  result.push(res)
-})
+    Title: title,
+    Age: age,
+    Weight: weight,
+    Lineage: lineage,
+    Price: price,
+    Color: color,
+    id: id,
+  };
+  result.push(res);
+});
 ---
 
 <Layout title="Search results for Dogs.">
   <div class="side-to-side">
     <div class="grid-parent">
-        {
-          result.map((item) => (
-            <Card item = { item }/>
-          )
-          )
-        }
+      {result.map((item) => <Card item={item} />)}
     </div>
   </div>
 </Layout>
 
 <style>
-.grid-parent {
+  .grid-parent {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: 10px;
     width: 100%;
     padding-right: 2%;
-}
+  }
 
-.grid-child {
+  .grid-child {
     margin: 10px;
-}
+  }
 
-.side-to-side {
+  .side-to-side {
     display: flex;
     align-items: stretch;
-}
+  }
 </style>
