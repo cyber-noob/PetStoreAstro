@@ -137,28 +137,16 @@ items.forEach((item) => {
 ---
 
 <Layout title="Search results for Dogs.">
-  <div class="side-to-side">
     <div class="grid-parent">
       {result.map((item) => <Card item={item} />)}
     </div>
-  </div>
 </Layout>
 
 <style>
   .grid-parent {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-gap: 10px;
-    width: 100%;
-    padding-right: 2%;
-  }
-
-  .grid-child {
-    margin: 10px;
-  }
-
-  .side-to-side {
     display: flex;
-    align-items: stretch;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
   }
 </style>

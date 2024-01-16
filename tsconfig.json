@@ -4,6 +4,7 @@
     "jsx": "preserve",
     "jsxImportSource": "react",
     "checkJs": false,
+    "sourceMap": true
   },
   "linterOptions": {
     "exclude": ["src/**","components/**"]

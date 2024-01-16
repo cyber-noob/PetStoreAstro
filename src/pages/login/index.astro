@@ -26,7 +26,7 @@ if (session) return Astro.redirect("/", 302); // redirect to profile page
     <ul class="my-4 space-y-3">
       <li>
         <a
-          href="/login/github"
+          href="/login/google"
           class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
         >
           <GoogleIcon sx={{color: red[500]}}/>
@@ -37,15 +37,17 @@ if (session) return Astro.redirect("/", 302); // redirect to profile page
           >
         </a>
       </li>
-      <li>
+
+      <!-- Facebook is too shit for development requires full verification before even starting the business i.e., on dev stage.... Fuck it! -->
+      <!-- <li>
         <a
-          href="#"
+          href="/login/facebook"
           class="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
         >
           <FacebookIcon sx={{ color: blue[500] }}/>
           <span class="flex-1 ml-3 whitespace-nowrap">Facebook</span>
         </a>
-      </li>
+      </li> -->
       <li>
         <a
           href="#"

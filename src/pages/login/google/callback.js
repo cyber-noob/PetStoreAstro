@@ -1,17 +1,13 @@
-import { auth, githubAuth } from "../../../lib/lucia.js";
+import { auth, googleAuth } from "../../../lib/lucia.ts";
 import { OAuthRequestError } from "@lucia-auth/oauth";
+import { profile } from "../../../stores/profileStore.js";
 
-import type { APIRoute } from "astro";
+// import type { APIRoute } from "astro";
+import { log } from "console";
 
-export const GET: APIRoute = async (context) => {
-	console.log('context -> ' + context);
-	const session = await context.locals.auth.validate();
-	console.log('on github callback ...')
-	if (session) {
-		console.log("session verified - " + session);
-		return context.redirect("/", 302); // redirect to profile page
-	}
-	const storedState = context.cookies.get("github_oauth_state")?.value;
+export const GET = async (context) => {
+	log("In google callback ...\nContext - " + JSON.stringify(context))
+	const storedState = context.cookies.get("google_oauth_state").value;
 	const state = context.url.searchParams.get("state");
 	const code = context.url.searchParams.get("code");
 	// validate state
@@ -21,15 +17,15 @@ export const GET: APIRoute = async (context) => {
 		});
 	}
 	try {
-		const { getExistingUser, githubUser, createUser } =
-			await githubAuth.validateCallback(code);
+		const { getExistingUser, googleUser, createUser } =
+			await googleAuth.validateCallback(code);
 
 		const getUser = async () => {
 			const existingUser = await getExistingUser();
 			if (existingUser) return existingUser;
 			const user = await createUser({
 				attributes: {
-					username: githubUser.login
+					username: googleUser.name
 				}
 			});
 			return user;
@@ -41,8 +37,10 @@ export const GET: APIRoute = async (context) => {
 			attributes: {}
 		});
 		context.locals.auth.setSession(session);
-		return context.redirect("/", 302); // redirect to profile page
+		profile.setKey('pic', googleUser.picture)
+		return context.redirect("/login", 302); // redirect to profile page
 	} catch (e) {
+		log("Error handling callback....\n" + e)
 		if (e instanceof OAuthRequestError) {
 			// invalid code
 			return new Response(null, {

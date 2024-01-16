@@ -8,7 +8,13 @@ var id = Astro.url.searchParams.get("id") || "";
 console.log("query -" + id);
 var item = {
   title: "Hey",
-  description: "test data local xzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+  description: "test data local",
+  lineage: "dragon",
+  age: "2 weeks",
+  weight: "40kg",
+  color: "white",
+  sex: "M",
+  species: "mammal",
   price: "2000",
 };
 //Fire api request
@@ -148,18 +154,18 @@ const photos = [
 
   .container {
     position: relative;
-    display: table;
-    table-layout: fixed;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     width: 100%;
-    margin-left: 3%;
     background: #fff;
     align-content: center;
   }
   
   .container .details {
     vertical-align: middle;
-    display: table-cell;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     padding-left: 5%;
     align-content: center;
@@ -167,6 +173,8 @@ const photos = [
   }
 
   .content {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     word-wrap: break-word;
   }
@@ -361,21 +369,24 @@ const photos = [
     flex-wrap: wrap;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-top: 3%;
   }
 
   .index-row {
     position: relative;
     border-bottom: 1px solid #eaeaec;
     margin: 0 0 12px;
-    padding-bottom: 10px;
-    -ms-flex-preferred-size: 40%;
-    flex-basis: 40%;
+    padding-bottom: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
   }
 
   .index-rowKey {
-    position: relative;
     color: #7e818c;
     font-size: 12px;
     line-height: 1;
@@ -383,7 +394,6 @@ const photos = [
   }
 
   .index-rowValue {
-    position: relative;
     color: #282c3f;
     font-size: 16px;
     line-height: 1.2;

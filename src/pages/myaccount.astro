@@ -1,0 +1,67 @@
+---
+import { Button, ButtonGroup } from "@mui/material";
+import Layout from "../layouts/Layout.astro";
+
+---
+
+<Layout title="myaccount">
+    <div class="account-main">
+    <div class="title"> My Account </div>
+    <div class="details">
+        <div class="item">
+            <a class="acc-title">First Name: </a>
+            <a class="acc-value">Cyber</a>
+        </div>
+
+        <div class="item">
+            <a class="acc-title">Last Name: </a>
+            <a class="acc-value">Noob</a>
+        </div>
+
+        <div class="item">
+            <a class="acc-title">Mobile Number: </a>
+            <a class="acc-value">940230123</a>
+        </div>
+
+        <div class="account-buttons">
+          <Button variant="outlined">EDIT</Button>
+        </div>
+    </div>
+    </div>
+</Layout>
+
+<style>
+    .account-main {
+        margin: 3%;
+    }
+
+    .details {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin: 3%;
+        justify-content: space-between;
+    }
+
+    .item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 5%;
+        padding: 0 15%;
+        box-shadow: 0 1px rgba(101, 101, 101, 0.3);
+    }
+
+    .acc-title {
+        font-size: large;
+        font-weight: bolder;
+        font-style: oblique;
+        color: rgb(48, 48, 48);
+    }
+
+    .acc-value {
+        color: rgba(44, 44, 44, 0.634);
+        font-style: italic;
+        font-weight: bold;
+    }
+</style>

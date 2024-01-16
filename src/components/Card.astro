@@ -10,61 +10,50 @@ const cardData = new Map(Object.entries(item));
 const title = cardData.get("Title");
 const price = cardData.get("Price");
 const id = cardData.get("id");
-console.log('id -> ' + id);
+console.log("id -> " + id);
 
 cardData.delete("Title");
 cardData.delete("Price");
 cardData.delete("id");
 ---
 
-<div class="card-parent" id="card-parent">
-  <div id={id} class="card-child" onclick= "location.href = '/pdp?id=' + id">
+<div id={id} class="card-child" onclick="location.href = '/pdp?id=' + id">
+  <div class="plp-img">
+    <img
+      class="p-8 rounded-t-lg"
+      src="https://www.thesprucepets.com/thmb/_1iWuPzSPKMItHCErr55PRPbc2U=/800x0/filters:no_upscale():strip_icc()/40386520_272666870012786_5732696489881099002_n-5b98360ac9e77c0050fa8a73.jpg"
+      alt="product image"
+    />
+  </div>
+  <div>
     <a>
-      <img
-        class="p-8 rounded-t-lg"
-        src="https://www.thesprucepets.com/thmb/_1iWuPzSPKMItHCErr55PRPbc2U=/800x0/filters:no_upscale():strip_icc()/40386520_272666870012786_5732696489881099002_n-5b98360ac9e77c0050fa8a73.jpg"
-        alt="product image"
-      />
+      <h2 class="title-font">
+        {title}
+      </h2>
     </a>
-    <div>
-      <a>
-        <h2 class="title-font">
-          {title}
-        </h2>
-      </a>
-      <div class="side-to-side">
-        <div class="grid-parent">
-          {
-            Array.from(cardData.keys()).map((key) => (
-              <div class="grid-child">
-                <h3 class="key">{key}: </h3>
-              </div>
-            ))
-          }
+<div class="tableContainer">
+        {
+          Array.from(cardData.keys()).map((key) => (
+            <div class="index-row">
+          <div class="index-rowKey">{key}</div>
+          <div class="index-rowValue">
+            {cardData.get(key)}
+          </div>
         </div>
+          ))
+        }
+      </div>
 
-        <div class="grid-parent">
-          {
-            Array.from(cardData.values()).map((key) => (
-              <div class="grid-child">
-                <h3 class="value">{key} </h3>
-              </div>
-            ))
-          }
+    <div class="side-to-side">
+      <div class="grid-parent">
+        <div class="grid-child">
+          <a class="price">INR {price}</a>
         </div>
       </div>
 
-      <div class="side-to-side">
-        <div class="grid-parent">
-          <div class="grid-child">
-            <a class="price">INR {price}</a>
-          </div>
-        </div>
-
-        <div class="grid-parent">
-          <div class="grid-child">
-            <Button variant="contained" size="small">Add to Cart</Button>
-          </div>
+      <div class="grid-parent">
+        <div class="grid-child">
+          <Button variant="contained" size="small">Add to Cart</Button>
         </div>
       </div>
     </div>
@@ -72,13 +61,14 @@ cardData.delete("id");
 </div>
 
 <style>
-  .card-parent {
-    padding-top: 10%;
-    height: 80%;
+  .plp-img {
+    padding: 3%;
+    border: 5px solid black;
   }
   .card-child {
     width: 100%;
     max-width: 24rem /* 384px */;
+    margin: 3%;
     background-color: white;
     border-color: gray;
     border-radius: 0.5rem /* 8px */;
@@ -133,6 +123,7 @@ cardData.delete("id");
     padding-left: 5%;
     padding-right: 5%;
     padding-bottom: 5%;
+    margin-top: 5%;
   }
   .grid-parent {
     display: grid;
@@ -162,18 +153,63 @@ cardData.delete("id");
     font-size: 20px;
     color: rgb(0, 0, 0);
   }
+
+  .tableContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-top: 3%;
+  }
+
+  .index-row {
+    position: relative;
+    border-bottom: 1px solid #eaeaec;
+    margin: 0 0 12px;
+    padding-bottom: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .index-rowKey {
+    color: #7e818c;
+    font-size: 16px;
+    line-height: 1;
+    margin-bottom: 5px;
+    font-weight: bolder;
+    font-style: oblique;
+  }
+
+  .index-rowValue {
+    color: #282c3f;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+    font-style: italic;
+  }
 </style>
 
 <script>
   let pdpcards = document.getElementsByClassName("card-parent");
-  console.log('cadds >> ' + pdpcards);
+  console.log("cadds >> " + pdpcards);
   pdpcards.forEach((card) => {
     card.addEventListener(
       "click",
       async (event) => {
         event.preventDefault();
-        console.log('card -> ' + card.getAtribute('id'))
-        location.href = "/pdp?id=" + card.getAtribute('id');
+        console.log("card -> " + card.getAtribute("id"));
+        location.href = "/pdp?id=" + card.getAtribute("id");
       },
       false
     );

@@ -2,7 +2,7 @@ import { lucia } from "lucia";
 import { mysql2 } from "@lucia-auth/adapter-mysql";
 import mysql from "mysql2/promise";
 import { astro } from "lucia/middleware";
-import { github, google } from "@lucia-auth/oauth/providers";
+import { facebook, github, google } from "@lucia-auth/oauth/providers";
 import fs from "fs";
 
 
@@ -13,6 +13,7 @@ const connectionPool = mysql.createPool({
 	password: 'MoistMiser!@3'
 });
 
+//Debug this line as it will crash the server even if table exists or not with a sql error
 // connectionPool.execute(fs.readFileSync("schema.sql", "utf8"));
 
 // expect error (see next section)
@@ -29,7 +30,7 @@ export const auth = lucia({
 
 	getUserAttributes: (data) => {
 		return {
-			githubUsername: data.username
+			userName: data.username
 		};
 	}
 });
@@ -40,7 +41,15 @@ export const githubAuth = github(auth, {
 });
 
 export const googleAuth = google(auth, {
+	clientId: import.meta.env.GOOGLE_CLIENT_ID,
+	clientSecret: import.meta.env.GOOGLE_CLIENT_SECRET,
+	redirectUri: "http://localhost:4321/login/google/callback"
+});
 
+export const facebookAuth = facebook(auth, {
+	clientId: import.meta.env.FB_CLIENT_ID,
+	clientSecret: import.meta.env.FB_CLIENT_SECRET,
+	redirectUri: "http://localhost:4321/facebook/google/callback"
 })
 
 export type Auth = typeof auth;
