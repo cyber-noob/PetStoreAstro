@@ -11,47 +11,64 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Button } from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AccountMenu( {profilePic, session} ) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+export default function AccountMenu({ profilePic, session }) {
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const myaccountPop = Boolean(anchorEl);
   const handleClick = (event) => {
     console.log("handled click from profile");
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     console.log("handled close from profile");
-    setAnchorEl(null);
+    if (open) setAnchorEl(null);
   };
 
-  const wishlist = () => {
-    location.href = '/wishlist';
-  }
+  const loginPop = Boolean(open);
+  const handleLoginPopUp = () => {
+    console.log("handled click from login button");
+    setOpen(true);
+  };
+
+  const closeLoginPopup = () => {
+    console.log("handled close from login button");
+    setOpen(false);
+  };
 
   const myaccount = () => {
-    location.href = '/myaccount';
-  }
-  
+    location.href = "/myaccount";
+  };
+
   return (
     <React.Fragment>
-      <Tooltip title="Account settings">
+      <Tooltip title="Account settings" onClick={handleClick}>
         <IconButton
-          onClick={handleClick}
           sx={{
             padding: 0,
             margin: 0,
           }}
-          aria-controls={open ? "account-menu" : undefined}
+          aria-controls={myaccountPop ? "account-menu" : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          aria-expanded={myaccountPop ? "true" : undefined}
         >
-          <Avatar src={profilePic} sx={{ width: 30, height: 30 }} />
+          <Avatar
+            src={profilePic}
+            sx={{ width: "1em", height: "1em", color: "blue[500]" }}
+          />
         </IconButton>
       </Tooltip>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
-        open={open}
+        open={myaccountPop}
         onClose={handleClose}
         onClick={handleClose}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
@@ -85,8 +102,8 @@ export default function AccountMenu( {profilePic, session} ) {
             },
           },
         }}
+        disableRestoreFocus={true}
       >
-        {/* <a style={{"padding": "3%"}}>Hey Welcome back...!</a> */}
         {session && (
           <MenuItem onClick={myaccount}>
             <ListItemIcon>
@@ -97,7 +114,7 @@ export default function AccountMenu( {profilePic, session} ) {
         )}
 
         {!session && (
-          <MenuItem onClick={myaccount}>
+          <MenuItem onClick={handleLoginPopUp}>
             <ListItemIcon>
               <Button fontSize="medium" color="primary" variant="contained">
                 LOGIN
@@ -105,20 +122,59 @@ export default function AccountMenu( {profilePic, session} ) {
             </ListItemIcon>
           </MenuItem>
         )}
+
+        <Dialog
+          open={loginPop}
+          onClose={closeLoginPopup}
+          disableRestoreFocus={true}
+          PaperProps={{
+            component: "form",
+            onSubmit: (event) => {
+              event.preventDefault();
+              const formData = new FormData(event.currentTarget);
+              const formJson = Object.fromEntries(formData.entries());
+              const email = formJson.email;
+              console.log(email);
+              closeLoginPopup();
+            },
+          }}
+        >
+          <DialogTitle>Login/SignUp</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please login to continue. If your account doesn't exist it will be
+              automatically created with your google account.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={React.cloneElement(<GoogleIcon />)}
+              href="/login/google"
+            >
+              Google
+            </Button>
+            <Button onClick={closeLoginPopup}>Cancel</Button>
+          </DialogActions>
+        </Dialog>
         <Divider />
-        <MenuItem onClick={handleClose}>
+
+        <MenuItem>
           <ListItemIcon>
             <ReceiptLongIcon fontSize="small" color="primary" />
           </ListItemIcon>
           Orders
         </MenuItem>
-        <MenuItem onClick={wishlist}>
+
+        <MenuItem>
           <ListItemIcon>
             <FavoriteIcon fontSize="small" color="primary" />
           </ListItemIcon>
           Wishlist
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+
+        <MenuItem>
           <ListItemIcon>
             <Logout fontSize="small" color="primary" />
           </ListItemIcon>

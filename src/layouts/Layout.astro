@@ -1,9 +1,8 @@
 ---
 import AccountMenu from "../components/UserMenuItems.jsx";
-import SearchBar from "../components/SearchBar.astro";
-import SentimentSatisfiedAltOutlinedIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import SearchBar from "../components/SearchBar.jsx";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Chip from "@mui/material/Chip/Chip";
 import { profile } from "../stores/profileStore.js";
 
@@ -15,7 +14,7 @@ const { title } = Astro.props;
 const session = await Astro.locals.auth.validate();
 console.log("checking session - " + JSON.stringify(session));
 // console.log('store profile details - ' + JSON.stringify(profile));
-let profilePic;
+let profilePic = "";
 
 profile.subscribe(($profile) => {
   profilePic = $profile.pic;
@@ -78,7 +77,7 @@ profile.subscribe(($profile) => {
               />
             </div>
           </div>
-          
+
           <div>
             Exotics
             <div class="chips">
@@ -105,7 +104,10 @@ profile.subscribe(($profile) => {
           onmouseover=""
           style="cursor: pointer;"
         >
-          <ShoppingBagOutlinedIcon color="primary" sx={{ fontSize: 30 }} />
+          <ShoppingBagIcon
+            color="action"
+            sx={{ width: "1em", height: "1em" }}
+          />
           <div class="icon-defs">CART</div>
         </div>
 
@@ -115,14 +117,14 @@ profile.subscribe(($profile) => {
           style="cursor: pointer;"
           onclick="location.href = '/wishlist'"
         >
-          <FavoriteBorderOutlinedIcon color="primary" sx={{ fontSize: 30 }} />
+          <FavoriteIcon color="action" sx={{ width: "1em", height: "1em" }} />
           <div class="icon-defs">WISHLIST</div>
         </div>
       </div>
     </div>
   </body>
 
-  <SearchBar />
+  <SearchBar client:load />
 
   <slot />
 
@@ -158,7 +160,7 @@ profile.subscribe(($profile) => {
   img {
     max-width: 100%;
     max-height: 100%;
-}
+  }
 
   code {
     font-family:
@@ -260,7 +262,7 @@ profile.subscribe(($profile) => {
 
   .account-icons {
     display: flex;
-    width: 15%;
+    width: 20%;
     flex-direction: row;
     justify-content: space-between;
     margin-right: 2%;
@@ -300,21 +302,35 @@ profile.subscribe(($profile) => {
     };
   }
 
-  document.getElementById("profile").addEventListener("click", (e) => {
-    console.log("clicked on profile");
-    if (!session) {
-      location.href = "/";
-    }
-  });
-
   // if (window.location.href.includes("/wishlist")) {
   //   window.onload = function () {};
   // }
 
-  document.getElementById("profile").addEventListener("click", (e) => {
-    console.log("clicked on profile");
-    if (!session) {
-      location.href = "/";
-    }
-  });
+  if (window.location.href.includes("/cart")) {
+    window.onload = function () {
+      document.querySelector('[data-testid="ShoppingBagIcon"]').style.color =
+        "rgb(0, 136, 255)";
+      Array.from(document.getElementsByClassName("icon-defs")).forEach(
+        (item) => {
+          if (item.innerHTML === "CART") {
+            item.style.color = "rgb(0, 136, 255)";
+          }
+        }
+      );
+    };
+  }
+
+  if (window.location.href.includes("/wishlist")) {
+    window.onload = function () {
+      document.querySelector('[data-testid="FavoriteIcon"]').style.color =
+        "rgb(0, 136, 255)";
+      Array.from(document.getElementsByClassName("icon-defs")).forEach(
+        (item) => {
+          if (item.innerHTML === "WISHLIST") {
+            item.style.color = "rgb(0, 136, 255)";
+          }
+        }
+      );
+    };
+  }
 </script>
