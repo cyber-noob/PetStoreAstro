@@ -62,7 +62,7 @@ const photos = [
 
 <Layout title="PDP page">
   <div class="container">
-    <ImageGrid photos={photos}/>
+      <ImageGrid photos={photos} />
     <div class="details">
       <div class="content">
         <h2>
@@ -153,15 +153,14 @@ const photos = [
   @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,800&display=swap");
 
   .container {
-    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100%;
     background: #fff;
-    align-content: center;
+    align-items: center;
+    margin: 5%;
   }
-  
+
   .container .details {
     vertical-align: middle;
     display: flex;

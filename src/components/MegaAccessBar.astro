@@ -1,0 +1,83 @@
+---
+const accessPageMap = {
+  Profile: "/myaccount",
+  Orders: "/orders",
+  "Address Book": "/addresses",
+};
+
+const legal = {
+  "Terms and Conditions": "/tnc",
+  "Privacy Policy": "/privacy",
+};
+---
+
+<div class="access-parent">
+  <div class="access-child">
+    <div class="access-title">Manage Account</div>
+
+    <div class="access-items">
+      {
+        Object.keys(accessPageMap).map((key) => (
+          <div onclick={"location.href='" + accessPageMap[key] + "'"}>
+            {key}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="access-child">
+    <div class="access-title">Legal Details</div>
+
+    <div class="access-items">
+      {
+        Object.keys(legal).map((key) => (
+          <div onclick={"location.href='" + legal[key] + "'"}>{key}</div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .access-parent {
+    height: 500px;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 5%;
+    box-shadow: 10px 6px 5px -10px #000000;
+  }
+
+  .access-child {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  .access-title {
+    margin-top: 35%;
+    color: #aaaaaa;
+  }
+
+  .access-items {
+    margin-top: 8%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 80%;
+  }
+
+  .access-items > * {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 25%;
+    box-shadow: 0px 6px 10px -10px #000000;
+    cursor: pointer;
+  }
+</style>

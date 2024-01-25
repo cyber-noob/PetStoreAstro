@@ -17,6 +17,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import axios from "axios";
 
 export default function AccountMenu({ profilePic, session }) {
   const [anchorEl, setAnchorEl] = React.useState(false);
@@ -24,27 +25,52 @@ export default function AccountMenu({ profilePic, session }) {
 
   const myaccountPop = Boolean(anchorEl);
   const handleClick = (event) => {
-    console.log("handled click from profile");
+    // console.log("handled click from profile");
+    // console.log("anchorEl => ", anchorEl)
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    console.log("handled close from profile");
-    if (open) setAnchorEl(null);
+  const handleClose = (event) => {
+    // console.log("handled close from profile");
+    // console.log(open);
+    setAnchorEl(null);
   };
 
   const loginPop = Boolean(open);
-  const handleLoginPopUp = () => {
-    console.log("handled click from login button");
+  const handleLoginPopUp = (event) => {
+    // console.log("handled click from login button");
     setOpen(true);
+    event.stopPropagation();
   };
 
   const closeLoginPopup = () => {
-    console.log("handled close from login button");
+    // console.log("handled close from login button");
     setOpen(false);
   };
 
   const myaccount = () => {
     location.href = "/myaccount";
+  };
+
+  const wishlist = () => {
+    location.href = "/wishlist";
+  };
+
+  const orders = () => {
+    location.href = "/orders";
+  };
+
+  const logout = () => {
+    console.log("performing logout");
+    axios({
+      url: "/logout",
+      method: "post",
+    })
+      .then((response) => {
+        console.log("logout data => ", response);
+        window.location.reload();
+        profilePic = "";
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -160,21 +186,21 @@ export default function AccountMenu({ profilePic, session }) {
         </Dialog>
         <Divider />
 
-        <MenuItem>
+        <MenuItem onClick={orders}>
           <ListItemIcon>
             <ReceiptLongIcon fontSize="small" color="primary" />
           </ListItemIcon>
-          Orders
+          My Orders
         </MenuItem>
 
-        <MenuItem>
+        <MenuItem onClick={wishlist}>
           <ListItemIcon>
             <FavoriteIcon fontSize="small" color="primary" />
           </ListItemIcon>
           Wishlist
         </MenuItem>
 
-        <MenuItem>
+        <MenuItem onClick={logout}>
           <ListItemIcon>
             <Logout fontSize="small" color="primary" />
           </ListItemIcon>

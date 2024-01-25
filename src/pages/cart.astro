@@ -1,6 +1,9 @@
 ---
+import { Button } from "@mui/material";
 import CartCard from "../components/CartCard.astro";
 import Layout from "../layouts/Layout.astro";
+import HorizontalLinearStepper from "../components/Stepper";
+import handleNext from "../components/Stepper";
 
 var query = Astro.url.searchParams.get("query") || "";
 console.log("query -" + query);
@@ -78,39 +81,37 @@ if (localDev) {
       },
     },
   ];
-}
-
-else {
-//Fire api request
-const getSearchResults = async (val: string) => {
-  await axios({
-    url: "/search/products",
-    method: "get",
-    baseURL: "http://localhost:8082",
-    params: {
-      query: val,
-    },
-  })
-    .then((response) => {
-      // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
-
-      //Extarct data and assign to items
-      const children = response.data.root.children;
-      for (const child of children) {
-        items.push(child);
-      }
-      // console.log('items == ', items)
-    })
-    .catch((error) => {
-      console.log("[search] " + error);
-    });
-};
-
-if (query != "") {
-  await getSearchResults(query);
 } else {
-  console.log("no search term passed");
-}
+  //Fire api request
+  const getSearchResults = async (val: string) => {
+    await axios({
+      url: "/search/products",
+      method: "get",
+      baseURL: "http://localhost:8082",
+      params: {
+        query: val,
+      },
+    })
+      .then((response) => {
+        // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
+
+        //Extarct data and assign to items
+        const children = response.data.root.children;
+        for (const child of children) {
+          items.push(child);
+        }
+        // console.log('items == ', items)
+      })
+      .catch((error) => {
+        console.log("[search] " + error);
+      });
+  };
+
+  if (query != "") {
+    await getSearchResults(query);
+  } else {
+    console.log("no search term passed");
+  }
 }
 
 var result = [];
@@ -138,73 +139,55 @@ items.forEach((item) => {
 });
 
 console.log("results >> ", result);
-
 ---
 
 <Layout
   title="Hey make sure we have all your favorite items on your shopping cart!"
   productsCount="Items count: 4"
 >
+  <div class="stepper">
+    <HorizontalLinearStepper client:load />
+  </div>
+
   <div class="cart-parent">
     <div class="cart-item" id="cart">
-      {
-        result.map((item) => (
-          <CartCard item={item}/>
-        ))
-      }
+      {result.map((item, index) => <CartCard item={item} />)}
     </div>
 
     <div class="cart-total">
-      <div
-        class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto"
-      >
-        <div>
-          <p
-            class="lg:text-4xl text-3xl font-black leading-9 text-gray-800 dark:text-white"
-          >
-            Summary
-          </p>
-          <div class="flex items-center justify-between pt-16">
-            <p class="text-base leading-none text-gray-800 dark:text-white">
-              Subtotal
-            </p>
-            <p class="text-base leading-none text-gray-800 dark:text-white">
-              1,000
-            </p>
-          </div>
-          <div class="flex items-center justify-between pt-5">
-            <p class="text-base leading-none text-gray-800 dark:text-white">
-              Shipping
-            </p>
-            <p class="text-base leading-none text-gray-800 dark:text-white">
-              100
-            </p>
-          </div>
-          <div class="flex items-center justify-between pt-5">
-            <p class="text-base leading-none text-gray-800 dark:text-white">
-              Tax
-            </p>
-            <p class="text-base leading-none text-gray-800 dark:text-white">
-              2%
-            </p>
-          </div>
+      <div class="cart-price-title">Price Breakup</div>
+      <div class="cart-price-breakup">
+        <div class="row">
+          <h5>Total MRP</h5>
+          <h5>Rs.2300</h5>
         </div>
-        <div>
-          <div class="flex items-center pb-6 justify-between lg:pt-5 pt-20">
-            <p class="text-2xl leading-normal text-gray-800 dark:text-white">
-              Total
-            </p>
-            <p
-              class="text-2xl font-bold leading-normal text-right text-gray-800 dark:text-white"
-            >
-              1,240
-            </p>
+
+        <div class="row">
+          <h5>Platform Fee</h5>
+          <h5>Rs.2</h5>
+        </div>
+
+        <div class="row">
+          <h5>Shipping Fee</h5>
+          <h5>Rs.1000</h5>
+        </div>
+
+        <div class="row">
+          <h5>Handling Fee</h5>
+          <h5>Free</h5>
+        </div>
+
+        <div class="cart-price-footer">
+          <div class="row">
+            <h3>Total</h3>
+            <h4>Rs.5000</h4>
           </div>
-          <button
-            id="checkout-button"
-            class="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white dark:hover:bg-gray-700"
-            >Checkout</button
-          >
+
+          <div id="place-order">
+            <Button size="large" variant="contained" color="primary">
+              PLACE ORDER
+            </Button>
+          </div>
         </div>
       </div>
     </div>
@@ -227,26 +210,73 @@ console.log("results >> ", result);
     background: rgb(133, 132, 132);
   }
 
+  .stepper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5%;
+  }
+
+  .cart-parent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 5%;
+  }
+
   .cart-item {
     display: flex;
-    width: 100%;
+    width: 70%;
     align-items: normal;
     flex-direction: column;
   }
 
   .cart-total {
-    width: 100%;
-  }
-
-  .cart-parent {
+    width: 20%;
+    height: fit-content;
+    padding: 3% 2%;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
-    padding: 3%;
+    justify-content: start;
+  }
+
+  .cart-price-breakup > .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: medium;
+    font-weight: lighter;
+    color: rgba(128, 128, 128, 0.741);
+  }
+
+  .cart-price-title {
+    font-size: medium;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.784);
+    margin-bottom: 3%;
+  }
+
+  .cart-price-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 -6px 10px -10px #000000;
+  }
+
+  .cart-price-footer > .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: medium;
+    font-weight: bold;
+    color: rgb(64, 64, 64);
   }
 </style>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
+<script define:vars={handleNext}>
   let checkoutButton = document.getElementById("checkout-button");
   let orderCreationResult = {
     id: "",
@@ -281,32 +311,34 @@ console.log("results >> ", result);
   }
 
   var options = {
-    "key": "rzp_test_fJLPcc02TCY2NS", // Enter the Key ID generated from the Dashboard
-    "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-    "currency": "INR",
-    "name": "Acme Corp", //your business name
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "callback_url": "https://localhost:4321/payment/thankyou",
-    "handler": function (response){
-        if (response.razorpay_payment_id == 'undefined' || response.razorpay_payment_id < 1) {
-          window.location.replace("/payment/failure");
-        }
-        else {
-          window.location.replace('/payment/thankyou');
-        }
+    key: "rzp_test_fJLPcc02TCY2NS", // Enter the Key ID generated from the Dashboard
+    amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    currency: "INR",
+    name: "Acme Corp", //your business name
+    description: "Test Transaction",
+    image: "https://example.com/your_logo",
+    order_id: "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    callback_url: "https://localhost:4321/payment/thankyou",
+    handler: function (response) {
+      if (
+        response.razorpay_payment_id == "undefined" ||
+        response.razorpay_payment_id < 1
+      ) {
+        window.location.replace("/payment/failure");
+      } else {
+        window.location.replace("/payment/thankyou");
+      }
     },
-    "prefill": {
+    prefill: {
       //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
       name: "Gaurav Kumar", //your customer's name
       email: "gaurav.kumar@example.com",
       contact: "9000090000", //Provide the customer's phone number for better conversion rates
     },
-    "notes": {
+    notes: {
       address: "Razorpay Corporate Office",
     },
-    "theme": {
+    theme: {
       color: "#3399cc",
     },
   };
@@ -319,19 +351,26 @@ console.log("results >> ", result);
     console.log("options: ", JSON.stringify(options));
 
     var rzp1 = new Razorpay(options);
-    rzp1.on('payment.failed', function (response){
-        alert(response.error.code);
-        alert(response.error.description);
-        alert(response.error.source);
-        alert(response.error.step);
-        alert(response.error.reason);
-        alert(response.error.metadata.order_id);
-        alert(response.error.metadata.payment_id);
+    rzp1.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
     });
 
     rzp1.open();
     e.preventDefault();
-
-
   });
+
+  document.getElementById("place-order").addEventListener(
+    "click",
+    (e) => {
+      console.log("clicked place order");
+      // handleNext();
+    },
+    false
+  );
 </script>

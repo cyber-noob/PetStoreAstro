@@ -12,14 +12,13 @@ const cardData = new Map(Object.entries(item));
 const title = cardData.get("Title");
 const price = cardData.get("Price");
 const id = cardData.get("id");
-console.log("cartcard id -> " + id);
 
 cardData.delete("Title");
 cardData.delete("Price");
 cardData.delete("id");
 ---
 
-<div class="card-parent" id="card-parent">
+<div class="card-parent" id={"card-parent_"+id}>
   <div id={id} class="card-child">
     <a class="row-1">
       <img
@@ -55,19 +54,27 @@ cardData.delete("id");
       <a class="price">INR {price}</a>
 
       <div class="quantity-controller">
-        <ButtonGroup size="small" aria-label="small outlined button group">
+        <ButtonGroup size="medium" aria-label="small outlined button group">
+          <div id={"minus-button_"+id}>
           <Button variant="outlined" size="small">-</Button>
+          </div>
+
+          <div id={"item-count_"+id}>
           <Button size="small">1</Button>
+          </div>
+
+          <div id={"plus-button_"+id}>
           <Button variant="outlined" size="small">+</Button>
+          </div>
         </ButtonGroup>
       </div>
 
       <div class="buttons">
-        <button class="wishlist">
+        <button class="wishlist" id={"wishlist_"+id}>
           <FavoriteBorderOutlined />
           <a>WISHLIST</a>
         </button>
-        <button class="remove">
+        <button class="remove" id={"remove_"+id}>
           <DeleteOutlineIcon />
           <a>REMOVE</a>
         </button>
@@ -239,5 +246,34 @@ cardData.delete("id");
       },
       false
     );
+
+    let id = card.parentElement.getAttribute("id");
+    let count = 1;
+
+    //Plus Button
+    document.getElementById("plus-button_"+id).addEventListener("click", (e) => {
+      count = count + 1;
+      document.getElementById("item-count_" + id)
+      .getElementsByTagName('button')[0].innerHTML = count.toString();
+    }, false);
+
+    //Minus Button
+    document.getElementById("minus-button_"+id).addEventListener("click", (e) => {
+      count = count - 1;
+      document.getElementById("item-count_" + id)
+      .getElementsByTagName('button')[0].innerHTML = count.toString();
+    }, false);
+
+    //Remove
+    document.getElementById("remove_" + id).addEventListener("click", (e) => {
+      console.log("Clicked remove");
+      document.getElementById("card-parent_" + id).remove();
+    })
+
+    // Wishlist
+    document.getElementById("wishlist_" + id).addEventListener("click", (e) => {
+      console.log("Clicked wishlist");
+      document.getElementById("card-parent_" + id).remove();
+    })
   });
 </script>

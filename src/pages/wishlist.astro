@@ -18,8 +18,7 @@ if (localDev) {
         sddocname: "products",
         documentid: "id:namespace:products::5",
         idProducts_Animal: "1",
-        title:
-          '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
+        title: "Beagle Puppies: Curious Companions",
         description:
           "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
         age: "4 month",
@@ -41,8 +40,7 @@ if (localDev) {
         sddocname: "products",
         documentid: "id:namespace:products::5",
         idProducts_Animal: "2",
-        title:
-          '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
+        title: "Huskie Puppies",
         description:
           "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
         age: "4 month",
@@ -64,8 +62,7 @@ if (localDev) {
         sddocname: "products",
         documentid: "id:namespace:products::5",
         idProducts_Animal: "3",
-        title:
-          '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
+        title: "Lab Puppies: Energy",
         description:
           "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
         age: "4 month",
@@ -79,39 +76,37 @@ if (localDev) {
       },
     },
   ];
-}
-
-else {
-//Fire api request
-const getSearchResults = async (val: string) => {
-  await axios({
-    url: "/search/products",
-    method: "get",
-    baseURL: "http://localhost:8082",
-    params: {
-      query: val,
-    },
-  })
-    .then((response) => {
-      // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
-
-      //Extarct data and assign to items
-      const children = response.data.root.children;
-      for (const child of children) {
-        items.push(child);
-      }
-      // console.log('items == ', items)
-    })
-    .catch((error) => {
-      console.log("[search] " + error);
-    });
-};
-
-if (query != "") {
-  await getSearchResults(query);
 } else {
-  console.log("no search term passed");
-}
+  //Fire api request
+  const getSearchResults = async (val: string) => {
+    await axios({
+      url: "/search/products",
+      method: "get",
+      baseURL: "http://localhost:8082",
+      params: {
+        query: val,
+      },
+    })
+      .then((response) => {
+        // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
+
+        //Extarct data and assign to items
+        const children = response.data.root.children;
+        for (const child of children) {
+          items.push(child);
+        }
+        // console.log('items == ', items)
+      })
+      .catch((error) => {
+        console.log("[search] " + error);
+      });
+  };
+
+  if (query != "") {
+    await getSearchResults(query);
+  } else {
+    console.log("no search term passed");
+  }
 }
 
 var result = [];
@@ -144,6 +139,7 @@ console.log("results >> ", result);
 <Layout
   title="Hey make sure we have all your favorite items on your shopping cart!"
 >
+  <div class="title">MY WISHLIST</div>
   <div class="closet-parent">
     <div class="closet-item" id="closet">
       {result.map((item) => <ClosetCard item={item} />)}
@@ -152,6 +148,10 @@ console.log("results >> ", result);
 </Layout>
 
 <style>
+  .title {
+    margin-top: 3%;
+    margin-left: 3%;
+  }
 
   .closet-item {
     display: flex;
@@ -160,6 +160,4 @@ console.log("results >> ", result);
   }
 </style>
 
-<script>
-  
-</script>
+<script></script>
