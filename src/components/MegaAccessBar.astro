@@ -2,7 +2,7 @@
 const accessPageMap = {
   Profile: "/myaccount",
   Orders: "/orders",
-  "Address Book": "/addresses",
+  "Address Book": "/addressbook",
 };
 
 const legal = {
@@ -47,7 +47,6 @@ const legal = {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    margin: 5%;
     box-shadow: 10px 6px 5px -10px #000000;
   }
 
@@ -81,3 +80,40 @@ const legal = {
     cursor: pointer;
   }
 </style>
+
+<script>
+  const highlighter = (urls: string[], target: string) => {
+    const condition = () => {
+      if (urls.length == 1) return window.location.href.includes(urls[0]);
+
+      let cond = window.location.href.includes(urls[0]);
+      for (let i = 1; i < urls.length; i++) {
+        cond = cond || window.location.href.includes(urls[i]);
+      }
+
+      return cond;
+    };
+
+    console.log('condition -> ', condition());
+    if (condition()) {
+      window.onload = function () {
+        let items = document.getElementsByClassName("access-items");
+        for (let i = 0; i < items.length; i++) {
+          let access_items = items.item(i).getElementsByTagName("div");
+          for (let j = 0; j < access_items.length; j++) {
+            let access_item = access_items.item(j);
+            console.log("item - ", access_item.innerHTML);
+            if (access_item.innerHTML.toLowerCase() == target) {
+              access_item.style.color = "rgb(0, 136, 255)";
+            }
+          }
+        }
+      };
+    }
+  };
+
+  highlighter(["/orders", "/order_details"], "orders");
+  highlighter(["/addressbook"], "address book");
+  highlighter(["/tnc"], "terms and conditions");
+  highlighter(["/myaccount"], "profile")
+</script>

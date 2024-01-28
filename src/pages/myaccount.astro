@@ -1,67 +1,87 @@
 ---
 import { Button, ButtonGroup } from "@mui/material";
 import Layout from "../layouts/Layout.astro";
-
+import MegaAccessBar from "../components/MegaAccessBar.astro";
 ---
 
-<Layout title="myaccount">
+<Layout title="Profile">
+  <div class="profile-main">
+    <MegaAccessBar />
     <div class="account-main">
-    <div class="title"> My Account </div>
-    <div class="details">
-        <div class="item">
-            <a class="acc-title">First Name: </a>
-            <a class="acc-value">Cyber</a>
-        </div>
+      <div class="title">PROFILE DETAILS</div>
+      <table class="details">
+        <tr>
+          <td>Full Name</td>
+          <td>Cyber Noob</td>
+        </tr>
 
-        <div class="item">
-            <a class="acc-title">Last Name: </a>
-            <a class="acc-value">Noob</a>
-        </div>
+        <tr>
+          <td>Gender</td>
+          <td>Male</td>
+        </tr>
 
-        <div class="item">
-            <a class="acc-title">Mobile Number: </a>
-            <a class="acc-value">940230123</a>
-        </div>
+        <tr>
+          <td>Mail</td>
+          <td>darkzesty@gmail.com</td>
+        </tr>
 
-        <div class="account-buttons">
-          <Button variant="outlined">EDIT</Button>
+        <tr>
+          <td>Alternate Mail</td>
+          <td>-</td>
+        </tr>
+
+        <tr>
+          <td>Alternate Mobile Number</td>
+          <td>-</td>
+        </tr>
+
+        <tr>
+          <td>Mobile Number</td>
+          <td>940230123</td>
+        </tr>
+
+        <tr>
+          <td>Date of Birth</td>
+          <td>03/07/1998</td>
+        </tr>
+
+        <tr>
+          <td>Location</td>
+          <td>Bangalore</td>
+        </tr>
+      </table>
+      <div class="account-buttons">
+          <Button variant="outlined" size="large">EDIT</Button>
         </div>
     </div>
-    </div>
+  </div>
 </Layout>
 
 <style>
-    .account-main {
-        margin: 3%;
-    }
-
-    .details {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        margin: 3%;
-        justify-content: space-between;
-    }
-
-    .item {
+    .profile-main {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        margin: 5%;
-        padding: 0 15%;
-        box-shadow: 0 1px rgba(101, 101, 101, 0.3);
+        margin: 3%;
     }
 
-    .acc-title {
-        font-size: large;
-        font-weight: bolder;
-        font-style: oblique;
-        color: rgb(48, 48, 48);
-    }
+  .account-main {
+    width: 100%;
+    margin-left: 3%;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .acc-value {
-        color: rgba(44, 44, 44, 0.634);
-        font-style: italic;
-        font-weight: bold;
-    }
+  .details {
+    width: 100%;
+    margin-top: 5%;
+    padding: 5%;
+  }
+
+  tr {
+    line-height: 50px;
+  }
+
+  .account-buttons {
+    width: 50%;
+  }
 </style>

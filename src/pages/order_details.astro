@@ -1,0 +1,237 @@
+---
+import Button from "@mui/material/Button";
+import MegaAccessBar from "../components/MegaAccessBar.astro";
+import Layout from "../layouts/Layout.astro";
+import OrderCard from "../components/OrderCard.astro";
+
+const delivered_to = 
+`AJAY D
+28/43D, 
+Stanley Street,
+Behind Jarvis Pub.
+Hollywood - 783292`;
+
+const mail = "darksezty@gmail.com"
+const phone = "9838104800"
+---
+
+<Layout title="my orders">
+  <div class="orders-main">
+    <MegaAccessBar />
+    <div class="order-details-parent">
+      <div class="orders-img">
+        <img
+          class="o-img"
+          src="https://cdn.dotpe.in/longtail/store-items/8096649/RVQ3ACZj.jpeg"
+        />
+      </div>
+
+      <div class="product-details">
+        <div class="order-product-title">Beagle Puppy</div>
+        <div class="order-product-collection">Pet Collection</div>
+
+        <div class="product-sub-info">
+          <div class="sub-item">
+            <div>Lineage: Pure</div>
+            <div>Age: 2Weeks</div>
+          </div>
+        </div>
+
+        <div class="delivery-status-main">
+          <div class="delivery-status">
+            <div>Delivery Status:</div>
+            <div class="status-info">
+              <img src="paw_tick.png" class="delivery-icon" />
+              <div>Delivered</div>
+            </div>
+          </div>
+          
+          <div class="delivery-date">
+            <div>Delivered On: 23 Jan 2023</div>
+          </div>
+        </div>
+
+        <div class="delivery-address">
+          <div>Delivered To: </div>
+          <div>{delivered_to}</div>
+        </div>
+
+        <div class="contact">
+          <div>Updates Sent To</div>
+          <br/>
+          <div>Mail: {mail}</div>
+          <div>Phone: {phone}</div>
+        </div>
+
+        <div class="invoice">
+          <Button variant="outlined" size="large">Download Invoice</Button>
+        </div>
+
+        <div class="other-items">
+          <div>Other items bought with</div>
+          <br/>
+
+          <OrderCard/>
+          <OrderCard/>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .orders-main {
+    display: flex;
+    flex-direction: row;
+    margin: 5%;
+  }
+
+  .order-details-parent {
+    width: 600px;
+    height: fit-content;
+    background-color: rgba(238, 236, 236, 0.277);
+    margin-left: 10%;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 6px 20px -10px #000000;
+  }
+
+  .orders-img {
+    height: 50%;
+    width: 50%;
+    margin: 5%;
+  }
+
+  .o-img {
+    padding: 0%;
+    border-top-right-radius: 0%;
+    border-top-left-radius: 0%;
+    object-fit: contain;
+  }
+
+  .product-details {
+    width: 100%;
+  }
+
+  .order-product-title {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 2%;
+    margin-left: 5%;
+  }
+
+  .order-product-collection {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 5%;
+    margin-left: 5%;
+  }
+
+  .product-sub-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .sub-item {
+    font-size: small;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  .sub-item > * {
+    margin-bottom: 5%;
+    margin-left: 5%;
+  }
+
+  .delivery-status-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0 6px 20px -10px #000000;
+  }
+
+  .delivery-status-main > * {
+    margin: 2%;
+    width: 100%;
+  }
+
+  .delivery-status-main > .delivery-date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: small;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  .delivery-status {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: rgb(0, 171, 74);
+  }
+
+  .delivery-status > .status-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2%;
+  }
+
+  .delivery-status > .status-info > * {
+    padding-left: 3%;
+  }
+
+  .delivery-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .delivery-address {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 3%;
+    font-size: small;
+    letter-spacing: 2px;
+    font-weight: bolder;
+    font-family: "Courier New", Courier, monospace;
+    white-space: pre-line;
+  }
+
+  .delivery-address > * {
+    margin-top: 3%;
+    margin-left: 3%;
+  }
+
+  .contact {
+    margin-top: 5%;
+    font-size: small;
+    letter-spacing: 1px;
+    font-weight: lighter;
+    font-family: "Courier New", Courier, monospace;
+    white-space: pre-line;
+  }
+
+  .invoice {
+    width: 100%;
+    margin-top: 5%;
+  }
+
+  .other-items {
+    text-transform: uppercase;
+    margin-top: 5%;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+  }
+</style>

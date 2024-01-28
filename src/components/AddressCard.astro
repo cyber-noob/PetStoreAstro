@@ -1,0 +1,108 @@
+---
+import { Button, Chip } from "@mui/material";
+
+let address = `AJAY D
+54/90I, Jimmy Street,
+Behind PoolClub Sinata,
+TellyTubby,
+Dubai - 783019`;
+---
+
+<div class="address-card-parent">
+  <div class="address-details">
+    <div class="address-header">
+      <div class="address-title">AJAY D</div>
+      <Chip label="Home" variant="contained" color="primary" />
+    </div>
+    <div class="mobile">Mobile 9898318001</div>
+
+    <div class="address">{address}</div>
+
+    <div class="buttons">
+      <Button variant="outlined" size="large">Edit</Button>
+      <Button variant="outlined" size="large">Remove</Button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .address-card-parent {
+    width: 100%;
+    margin-bottom: 5%;
+    box-shadow: 0 6px 20px -10px #000000;
+    cursor: pointer;
+  }
+
+  .address-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3%;
+  }
+
+  .address-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .address-title {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 2%;
+  }
+
+  .mobile {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 5%;
+  }
+
+  .address {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 70%;
+    font-size: small;
+    font-family: "Courier New", Courier, monospace;
+    white-space: pre-line;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0%;
+    margin-top: 3%;
+  }
+
+  .buttons > * {
+    width: 40%;
+    color: rgb(25, 118, 210);
+    text-align: center;
+    padding: 1%;
+    border: 2px solid rgba(25, 118, 210, 0.5);
+  }
+</style>
+
+<script>
+  let ordersCards = document.getElementsByClassName("order-card-parent");
+  for (let i = 0; i < ordersCards.length; i++) {
+    let card = ordersCards.item(i);
+    card.addEventListener(
+      "click",
+      async (event) => {
+        event.preventDefault();
+        // console.log("card -> " + card.getAttribute("id"));
+        location.href =
+          "/order_details?orderId=" +
+          card.getAttribute("id") +
+          "&itemId=" +
+          null;
+      },
+      false
+    );
+  }
+</script>

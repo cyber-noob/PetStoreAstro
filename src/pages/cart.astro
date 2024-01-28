@@ -1,14 +1,21 @@
 ---
-import { Button } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import CartCard from "../components/CartCard.astro";
 import Layout from "../layouts/Layout.astro";
-import HorizontalLinearStepper from "../components/Stepper";
-import handleNext from "../components/Stepper";
+import axios from "axios";
+import AddressCard from "../components/AddressCard.astro";
+import AlertDialog from "../components/ConfirmPopUp";
 
 var query = Astro.url.searchParams.get("query") || "";
 console.log("query -" + query);
 var items = [];
 const localDev = true;
+
+let deliver_to = "AJAY D (9530193055)";
+let delivery_address = `54/90I, Jimmy Street,
+Behind PoolClub Sinata,
+TellyTubby,
+Dubai - 783019`;
 
 if (localDev) {
   items = [
@@ -145,12 +152,15 @@ console.log("results >> ", result);
   title="Hey make sure we have all your favorite items on your shopping cart!"
   productsCount="Items count: 4"
 >
-  <div class="stepper">
-    <HorizontalLinearStepper client:load />
-  </div>
-
   <div class="cart-parent">
     <div class="cart-item" id="cart">
+      <div class="delivery-address">
+        <div class="delivery-header">
+        <div>Deliver To: {deliver_to}</div>
+        <Chip label="Home" variant="outlined" color="primary" size="small"/>
+        </div>
+        <div>{delivery_address}</div>
+      </div>
       {result.map((item, index) => <CartCard item={item} />)}
     </div>
 
@@ -184,9 +194,7 @@ console.log("results >> ", result);
           </div>
 
           <div id="place-order">
-            <Button size="large" variant="contained" color="primary">
-              PLACE ORDER
-            </Button>
+            <AlertDialog delivery_address={delivery_address} client:load/>
           </div>
         </div>
       </div>
@@ -195,6 +203,23 @@ console.log("results >> ", result);
 </Layout>
 
 <style>
+  .delivery-address {
+    padding: 3%;
+    box-shadow: 0 6px 20px -10px #000000;
+    margin-bottom: 5%;
+    font-family: "Courier New", Courier, monospace;
+    font-size: small;
+    background-color: #fafafaaa;
+  }
+
+  .delivery-header {
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   /* width */
   #scroll::-webkit-scrollbar {
     width: 1px;
@@ -276,7 +301,7 @@ console.log("results >> ", result);
 </style>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script define:vars={handleNext}>
+<script>
   let checkoutButton = document.getElementById("checkout-button");
   let orderCreationResult = {
     id: "",
@@ -369,7 +394,6 @@ console.log("results >> ", result);
     "click",
     (e) => {
       console.log("clicked place order");
-      // handleNext();
     },
     false
   );

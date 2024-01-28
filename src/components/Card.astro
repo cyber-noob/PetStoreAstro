@@ -31,18 +31,16 @@ cardData.delete("id");
         {title}
       </h2>
     </a>
-<div class="tableContainer">
-        {
-          Array.from(cardData.keys()).map((key) => (
-            <div class="index-row">
-          <div class="index-rowKey">{key}</div>
-          <div class="index-rowValue">
-            {cardData.get(key)}
+    <div class="tableContainer">
+      {
+        Array.from(cardData.keys()).map((key) => (
+          <div class="index-row">
+            <div class="index-rowKey">{key}</div>
+            <div class="index-rowValue">{cardData.get(key)}</div>
           </div>
-        </div>
-          ))
-        }
-      </div>
+        ))
+      }
+    </div>
 
     <div class="side-to-side">
       <div class="grid-parent">
@@ -197,16 +195,16 @@ cardData.delete("id");
 
 <script>
   let pdpcards = document.getElementsByClassName("card-parent");
-  console.log("cadds >> " + pdpcards);
-  pdpcards.forEach((card) => {
+  for (let i = 0; i < pdpcards.length; i++) {
+    let card = pdpcards.item(i);
     card.addEventListener(
       "click",
       async (event) => {
         event.preventDefault();
-        console.log("card -> " + card.getAtribute("id"));
-        location.href = "/pdp?id=" + card.getAtribute("id");
+        console.log("card -> " + card.getAttribute("id"));
+        location.href = "/pdp?id=" + card.getAttribute("id");
       },
       false
     );
-  });
+  }
 </script>

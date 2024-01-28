@@ -1,0 +1,60 @@
+---
+import Button from "@mui/material/Button";
+import AddressCard from "../components/AddressCard.astro";
+import MegaAccessBar from "../components/MegaAccessBar.astro";
+import OrderCard from "../components/OrderCard.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="my orders">
+  <div class="orders-main">
+    <MegaAccessBar />
+    <div class="address-list">
+      <div class="address-title">
+        <div>Saved Addresses</div>
+        <Button variant="outlined" size="large">+ Add New Address</Button>
+      </div>
+
+      <div class="address-cat">
+      <div>Default Address</div>
+      <AddressCard />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .orders-main {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+    width: 100%;
+  }
+
+  .address-list {
+    width: 70%;
+    margin-left: 3%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .address-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: large;
+    font-weight: bold;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin-bottom: 5%;
+  }
+
+  .address-cat {
+    font-size: medium;
+    font-weight: 600;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+  .address-cat > * {
+    margin-bottom: 3%;
+  }
+</style>

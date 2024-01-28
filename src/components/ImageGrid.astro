@@ -1,6 +1,8 @@
 ---
+import PaperStickyNote from './PaperStickyNote.astro';
+
 interface Props {
-  photos: string[];
+  photos: Object[];
 }
 
 const { photos } = Astro.props;
@@ -19,11 +21,12 @@ const { photos } = Astro.props;
       photos.map((photo) => (
         <div
           class="f-carousel__slide"
-          data-thumb-src={photo}
+          data-thumb-src={photo.url}
           data-fancybox="gallery"
-          data-src={photo}
+          data-src={photo.url}
         >
-          <img alt="" data-lazy-src={photo} />
+          <img alt="" data-lazy-src={photo.url} />
+          <PaperStickyNote publishedOn={photo.publishedOn}/>
         </div>
       ))
     }
@@ -97,6 +100,7 @@ const { photos } = Astro.props;
 
   #productCarousel .f-carousel__slide {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
