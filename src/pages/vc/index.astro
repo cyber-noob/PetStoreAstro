@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 ---
 
-<Layout title="" productsCount="">
+<Layout title="Video Call">
   <div class="header">
     <h1>Book A Video Call</h1>
     <h3>
@@ -72,10 +72,9 @@ import Layout from "../layouts/Layout.astro";
   }
 </style>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-  import pay from '../lib/razorpay';
-
   const bookButton = document.getElementById('book')
-  pay(200, bookButton)
+  bookButton.addEventListener('click', () => {
+    location.href = "/vc/booking?provider_id=" + "4" + "&service_id=" + "1";
+  })
 </script>

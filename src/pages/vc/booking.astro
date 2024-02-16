@@ -1,0 +1,175 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ResponsiveDatePicker from "../../components/Date.jsx";
+import { Avatar, Button, Divider } from "@mui/material";
+import ScheduleOutlinedIcon from '@mui/icons-material/Schedule';
+import SellOutlinedIcon from '@mui/icons-material/Sell';
+import VideocamOutlinedIcon from '@mui/icons-material/Videocam';
+import AccountMenu from "../../components/UserMenuItems";
+
+const time_slots = [
+  '10:00 am',
+  '10:30 am',
+  '11:00 am',
+  '11:30 am',
+  '12:00 pm',
+  '12:30 pm',
+  '01:00 pm',
+  '01:30 pm',
+  '02:00 pm',
+  '02:00 pm',
+  '02:00 pm',
+
+  '10:00 am',
+  '10:30 am',
+  '11:00 am',
+  '11:30 am',
+  '12:00 pm',
+  '12:30 pm',
+  '01:00 pm',
+  '01:30 pm',
+  '02:00 pm',
+  '02:00 pm',
+  '02:00 pm',
+]
+---
+
+<Layout title="Booking">
+  <div class="booking-main">
+    <div class="booking-info">
+      <Avatar 
+        src="https://www.thesprucepets.com/thmb/_1iWuPzSPKMItHCErr55PRPbc2U=/800x0/filters:no_upscale():strip_icc()/40386520_272666870012786_5732696489881099002_n-5b98360ac9e77c0050fa8a73.jpg"
+        sx={{ width: "8em", height: "8em", color: "blue[500]" }}
+      />
+      <div class="booking-info-title">Video Call confirmation for Dolmition Puppies</div>
+      <div class="booking-info-collection">PET COLLECTION</div>
+
+      <div class="booking-info-sub">
+        <ScheduleOutlinedIcon fontSize="small"/>
+        <div>30 mins</div>
+      </div>
+
+      <div class="booking-info-sub">
+        <SellOutlinedIcon fontSize="small"/>
+        <div>Rs.100</div>
+      </div>
+
+      <div class="booking-info-sub">
+        <VideocamOutlinedIcon fontSize="small" />
+        <div>Video call details and a confirmation mail shall be provided upon confirmation</div>
+      </div>
+
+      <div class="book-now">
+        <Button variant="contained">Book Now</Button>
+      </div>
+    </div>
+
+    <Divider orientation="vertical" flexItem />
+
+    <div class="booking-slot">
+      <div class="date">
+        <ResponsiveDatePicker client:load />
+      </div>
+      <div class="time-slots">
+        <div class="slots">
+        {
+          time_slots.map((item) => <Button variant="outlined">{item}</Button>)
+        }
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .booking-main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 500px;
+    margin-top: 5%;
+    // box-shadow: 0 6px 20px -10px #000000;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .booking-info-title {
+    margin-top: 5%;
+    font-size: larger;
+    font-weight: bolder;
+    margin-bottom: 2%;
+  }
+
+  .booking-info-collection {
+    font-size: medium;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 5%;
+  }
+
+  .booking-info-sub {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5%;
+    font-size: small;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: light;
+  }
+
+  .booking-info-sub > * {
+    margin-left: 5%;
+  }
+
+  .booking-slot {
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    justify-content: space-between;
+  }
+
+  .time-slots {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+  }
+
+  .slots {
+    overflow: auto;
+  }
+
+  .slots > * {
+    margin: 5%;
+  }
+
+  .highlight-button {
+    color: white;
+    background-color: #1976d2;
+  }
+
+  .book-now {
+    margin-top: 10%;
+  }
+</style>
+
+<script>
+
+ function setThisButtonActive(button) {
+   button.classList.add("highlight-button");
+ }
+
+ function resetActiveButton() {
+   document.querySelectorAll(".MuiButton-outlined").forEach((button) => {
+    button.classList.remove("highlight-button");
+   });
+ }
+
+   document.querySelectorAll(".MuiButton-outlined")
+   .forEach(button => {
+     button.addEventListener('click', () => {
+       resetActiveButton();
+       setThisButtonActive(button);
+     })
+   })
+</script>

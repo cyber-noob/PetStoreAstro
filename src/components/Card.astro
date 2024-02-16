@@ -7,11 +7,12 @@ interface Props {
 
 const { item } = Astro.props;
 const cardData = new Map(Object.entries(item));
-const title = cardData.get("Title");
+let title = cardData.get("Title");
 const price = cardData.get("Price");
 const id = cardData.get("id");
 console.log("id -> " + id);
 
+if (title.length > 20) title = title.slice(0, 20) + "...";
 cardData.delete("Title");
 cardData.delete("Price");
 cardData.delete("id");
@@ -60,16 +61,15 @@ cardData.delete("id");
 
 <style>
   .plp-img {
-    padding: 3%;
+    padding: 8%;
   }
   .card-child {
-    width: 100%;
-    max-width: 24rem /* 384px */;
+    width: 300px;
     margin: 3%;
     background-color: white;
     border-color: gray;
     border-radius: 0.5rem /* 8px */;
-    box-shadow: 6px 6px 10px -10px #000000;
+    box-shadow: 0 6px 20px -10px #000000;
   }
   .link-card {
     list-style: none;

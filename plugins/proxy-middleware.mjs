@@ -1,14 +1,14 @@
 import { createProxyMiddleware } from "http-proxy-middleware"
 
 export default (context, options) => {
-  const apiProxy = createProxyMiddleware(context, options)
+  const apiProxy = createProxyMiddleware(context, options);
 
   return {
-    name: 'proxy',
+    name: "proxy",
     hooks: {
-      'astro:server:setup': ({ server }) => {
-        server.middlewares.use(apiProxy)
-      }
-    }
-  }
-}
+      "astro:server:setup": ({ server }) => {
+        server.middlewares.use(apiProxy);
+      },
+    },
+  };
+};
