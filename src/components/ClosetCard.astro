@@ -8,17 +8,14 @@ interface Props {
 }
 
 const { item } = Astro.props;
-const cardData = new Map(Object.entries(item));
-let title = cardData.get("Title");
-const price = cardData.get("Price");
-const id = cardData.get("id");
-const lineage = cardData.get("Lineage");
+
+let title = item["title"];
+const price = item["price"];
+const id = item["idProducts_Animal"];
+const lineage = item["lineage"];
 console.log("cartcard id -> " + id);
 
 if (title.length > 20) title = title.slice(0, 20) + "...";
-cardData.delete("Title");
-cardData.delete("Price");
-cardData.delete("id");
 ---
 
 <div class="closet-card-parent" id="closet-card-parent">

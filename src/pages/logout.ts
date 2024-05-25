@@ -1,17 +1,8 @@
-import { auth } from "../lib/lucia";
-
+import axios from "axios";
 import type { APIRoute } from "astro";
 
-export const post: APIRoute = async (context) => {
-	const session = await context.locals.auth.validate();
-	if (!session) {
-		return new Response("Unauthorized", {
-			status: 401
-		});
-	}
-	// make sure to invalidate the current session!
-	await auth.invalidateSession(session.sessionId);
-	// delete session cookie
-	context.locals.auth.setSession(null);
-	return context.redirect("/login", 302);
+export const POST: APIRoute = async ({ request, cookies, redirect }) => {
+  cookies.delete("session");
+  cookies.delete("info");
+  return new Response("successfully logged out", { status: 200 });
 };

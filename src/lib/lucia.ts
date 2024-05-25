@@ -2,14 +2,12 @@ import { lucia } from "lucia";
 import { mysql2 } from "@lucia-auth/adapter-mysql";
 import mysql from "mysql2/promise";
 import { astro } from "lucia/middleware";
-import { facebook, github, google } from "@lucia-auth/oauth/providers";
-import fs from "fs";
-
+import { google } from "@lucia-auth/oauth/providers";
 
 const connectionPool = mysql.createPool({
 	host: 'localhost',
-  	user: 'root',
-  	database: 'petstore_schema',
+	user: 'root',
+	database: 'petstore_schema',
 	password: 'MoistMiser!@3'
 });
 
@@ -20,7 +18,7 @@ const connectionPool = mysql.createPool({
 export const auth = lucia({
 	env: "DEV", // "PROD" if deployed to HTTPS,
 
-    adapter: mysql2(connectionPool, {
+	adapter: mysql2(connectionPool, {
 		user: "user",
 		session: "user_session",
 		key: "user_key"
@@ -35,21 +33,14 @@ export const auth = lucia({
 	}
 });
 
-export const githubAuth = github(auth, {
-	clientId: import.meta.env.GITHUB_CLIENT_ID,
-	clientSecret: import.meta.env.GITHUB_CLIENT_SECRET
-});
-
 export const googleAuth = google(auth, {
 	clientId: import.meta.env.GOOGLE_CLIENT_ID,
 	clientSecret: import.meta.env.GOOGLE_CLIENT_SECRET,
-	redirectUri: "http://localhost:4321/login/google/callback"
+	redirectUri: "http://localhost:4321/login/google/callback",
+	scope: [
+		'https://www.googleapis.com/auth/userinfo.profile',
+		'https://www.googleapis.com/auth/userinfo.email'
+	]
 });
-
-export const facebookAuth = facebook(auth, {
-	clientId: import.meta.env.FB_CLIENT_ID,
-	clientSecret: import.meta.env.FB_CLIENT_SECRET,
-	redirectUri: "http://localhost:4321/facebook/google/callback"
-})
 
 export type Auth = typeof auth;

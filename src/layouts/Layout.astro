@@ -4,21 +4,23 @@ import SearchBar from "../components/SearchBar.jsx";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Chip from "@mui/material/Chip/Chip";
-import { profile } from "../stores/profileStore.js";
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
-const session = await Astro.locals.auth.validate();
-console.log("checking session - " + JSON.stringify(session));
-// console.log('store profile details - ' + JSON.stringify(profile));
 let profilePic = "";
 
-profile.subscribe(($profile) => {
-  profilePic = $profile.pic;
-});
+if (Astro.cookies.get("info") !== undefined) {
+  console.log("in pic block");
+  const info = Astro.cookies.get("info") as Object;
+  profilePic = JSON.parse(info.value)["picture"];
+}
+
+let session = Astro.cookies.get("session");
+console.log("picture: " + profilePic);
+console.log("session: " + JSON.stringify(session));
 ---
 
 <!doctype html>
@@ -32,302 +34,300 @@ profile.subscribe(($profile) => {
     <title id="c_tity">{title}</title>
 
     <link rel="stylesheet" type="text/css" href="css/grid-gallery.css" />
+    <script src="https://accounts.google.com/gsi/client" async></script>
 
-        <!-- Common top navbar -->
-    <div class="main">
-      <div
-        class="logo"
-        onclick="location.href = '/home'"
-        onmouseover=""
-        style="cursor: pointer;"
-      >
-        <img src="/doggo.gif" class="gif" />
-        <a class="title">Petsy.INC</a>
-      </div>
+    <!-- Common top navbar -->
+  </head><div class="main">
+    <div
+      class="logo"
+      onclick="location.href = '/home'"
+      onmouseover=""
+      style="cursor: pointer;"
+    >
+      <img src="/doggo.gif" class="gif" />
+      <a class="title">Petsy.INC</a>
+    </div>
 
-      <div class="topbar-style">
-        <div class="items">
-          <div id="exists" class="exists" onclick="location.href = '/plp'">
-            Puppies
+    <div class="topbar-style">
+      <div class="items">
+        <div id="exists" class="exists" onclick="location.href = '/plp'">
+          Puppies
 
-            <div id="highlighter" class="highlighter"></div>
-          </div>
-
-          <div>
-            Birds
-            <div class="chips">
-              <Chip
-                label="coming soon"
-                size="small"
-                variant="outlined"
-                color="error"
-              />
-            </div>
-          </div>
-
-          <div>
-            Fishes
-            <div class="chips">
-              <Chip
-                label="coming soon"
-                size="small"
-                variant="outlined"
-                color="error"
-              />
-            </div>
-          </div>
-
-          <div>
-            Exotics
-            <div class="chips">
-              <Chip
-                label="coming soon"
-                size="small"
-                variant="outlined"
-                color="error"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="account-icons">
-        <div id="myaccount" onmouseover="" style="cursor: pointer;">
-          <AccountMenu profilePic={profilePic} session={session} client:load />
-          <div class="icon-defs">PROFILE</div>
+          <div id="highlighter" class="highlighter"></div>
         </div>
 
-        <div
-          class="cart"
-          onclick="location.href = '/cart'"
-          onmouseover=""
-          style="cursor: pointer;"
-        >
-          <ShoppingBagIcon
-            color="action"
-            sx={{ width: "1em", height: "1em" }}
-          />
-          <div class="icon-defs">CART</div>
+        <div>
+          Birds
+          <div class="chips">
+            <Chip
+              label="coming soon"
+              size="small"
+              variant="outlined"
+              color="error"
+            />
+          </div>
         </div>
 
-        <div
-          class="wishlist"
-          onmouseover=""
-          style="cursor: pointer;"
-          onclick="location.href = '/wishlist'"
-        >
-          <FavoriteIcon color="action" sx={{ width: "1em", height: "1em" }} />
-          <div class="icon-defs">WISHLIST</div>
+        <div>
+          Fishes
+          <div class="chips">
+            <Chip
+              label="coming soon"
+              size="small"
+              variant="outlined"
+              color="error"
+            />
+          </div>
+        </div>
+
+        <div>
+          Exotics
+          <div class="chips">
+            <Chip
+              label="coming soon"
+              size="small"
+              variant="outlined"
+              color="error"
+            />
+          </div>
         </div>
       </div>
     </div>
-  </body>
+
+    <div class="account-icons">
+      <div id="myaccount" onmouseover="" style="cursor: pointer;">
+        <AccountMenu profilePic={profilePic} session={session} client:load />
+        <div class="icon-defs">PROFILE</div>
+      </div>
+
+      <div
+        class="cart"
+        onclick="location.href = '/cart'"
+        onmouseover=""
+        style="cursor: pointer;"
+      >
+        <ShoppingBagIcon color="action" sx={{ width: "1em", height: "1em" }} />
+        <div class="icon-defs">CART</div>
+      </div>
+
+      <div
+        class="wishlist"
+        onmouseover=""
+        style="cursor: pointer;"
+        onclick="location.href = '/wishlist'"
+      >
+        <FavoriteIcon color="action" sx={{ width: "1em", height: "1em" }} />
+        <div class="icon-defs">WISHLIST</div>
+      </div>
+    </div>
+  </div>
 
   <SearchBar client:load />
-  </head>
+
   <body>
+    <slot />
 
-  <slot />
+    <script type="text/javascript" src="js/grid-gallery.js"></script>
+  </body>
 
-  <script type="text/javascript" src="js/grid-gallery.js"></script>
+  <style is:global>
+    :root {
+      --accent: 136, 58, 234;
+      --accent-light: 224, 204, 250;
+      --accent-dark: 49, 10, 101;
+      --accent-gradient: linear-gradient(
+        45deg,
+        rgb(var(--accent)),
+        rgb(var(--accent-light)) 30%,
+        rgb(0, 0, 0) 60%;
+      );
+    }
+
+    html {
+      font-family: system-ui, sans-serif;
+      background: #ffffff;
+      background-size: 100%;
+    }
+
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    code {
+      font-family:
+        Menlo,
+        Monaco,
+        Lucida Console,
+        Liberation Mono,
+        DejaVu Sans Mono,
+        Bitstream Vera Sans Mono,
+        Courier New,
+        monospace;
+    }
+
+    .title {
+      font: Courier;
+      font-size: x-large;
+      font-weight: bold;
+      font-style: italic;
+      align-self: center;
+      color: rgb(0, 118, 227);
+    }
+
+    .gif {
+      display: flex;
+      width: 20%;
+      height: auto;
+      float: left;
+      padding-right: 3%;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: row;
+      /* justify-content: space-between; */
+      align-items: center;
+      flex: 0 0 auto;
+      overflow: hidden;
+      height: 20%;
+    }
+
+    .logo {
+      display: flex;
+      max-width: 25%;
+    }
+
+    .logo > img {
+      flex: 1;
+      max-height: 150px;
+    }
+
+    .topbar-style {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      margin-left: 2%;
+      margin-top: 2%;
+      margin-right: 2%;
+      height: 30%;
+      align-items: center;
+      justify-items: center;
+      padding: 1%;
+      margin-bottom: 2%;
+      box-shadow: 0 6px 10px -10px #000000;
+    }
+
+    .items {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .items > .exists {
+      /* display: flex; */
+      font: Courier;
+      font-size: medium;
+      font-weight: bold;
+      color: rgb(0, 0, 0);
+      cursor: pointer;
+    }
+
+    .items > * {
+      /* display: flex; */
+      font: Courier;
+      font-size: medium;
+      font-weight: bold;
+      color: rgb(183, 183, 183);
+      cursor: auto;
+    }
+
+    .highlighter {
+      width: auto;
+      height: 5px;
+      background-color: rgb(0, 94, 255);
+      margin-top: 10px;
+      display: none;
+    }
+
+    .account-icons {
+      display: flex;
+      width: 20%;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-right: 2%;
+    }
+
+    .account-icons > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: center;
+      align-content: center;
+      justify-content: center;
+      justify-self: center;
+      justify-items: center;
+    }
+
+    .icon-defs {
+      font: Courier;
+      font-size: x-small;
+      font-weight: bold;
+      color: rgb(0, 0, 0);
+      margin-top: 10%;
+    }
+
+    .chips {
+      height: auto;
+      margin-top: -50px;
+      margin-left: 30px;
+    }
+  </style>
+
+  <script define:vars={{ session }}>
+    if (window.location.href.includes("/plp")) {
+      window.onload = function () {
+        document.getElementById("exists").style.color = "rgb(0, 136, 255)";
+        document.getElementById("highlighter").style.display = "block";
+      };
+    }
+
+    if (window.location.href.includes("/cart")) {
+      window.onload = function () {
+        document.querySelector('[data-testid="ShoppingBagIcon"]').style.color =
+          "rgb(0, 136, 255)";
+        Array.from(document.getElementsByClassName("icon-defs")).forEach(
+          (item) => {
+            if (item.innerHTML === "CART") {
+              item.style.color = "rgb(0, 136, 255)";
+            }
+          }
+        );
+      };
+    }
+
+    if (window.location.href.includes("/wishlist")) {
+      window.onload = function () {
+        document.querySelector('[data-testid="FavoriteIcon"]').style.color =
+          "rgb(0, 136, 255)";
+        Array.from(document.getElementsByClassName("icon-defs")).forEach(
+          (item) => {
+            if (item.innerHTML === "WISHLIST") {
+              item.style.color = "rgb(0, 136, 255)";
+            }
+          }
+        );
+      };
+    }
+  </script>
+
 </html>
-
-<style is:global>
-  :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      rgb(0, 0, 0) 60%;
-    );
-  }
-
-  html {
-    font-family: system-ui, sans-serif;
-    background: #ffffff;
-    background-size: 100%;
-  }
-
-  body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-  }
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-
-  code {
-    font-family:
-      Menlo,
-      Monaco,
-      Lucida Console,
-      Liberation Mono,
-      DejaVu Sans Mono,
-      Bitstream Vera Sans Mono,
-      Courier New,
-      monospace;
-  }
-
-  .title {
-    font: Courier;
-    font-size: x-large;
-    font-weight: bold;
-    font-style: italic;
-    align-self: center;
-    color: rgb(0, 118, 227);
-  }
-
-  .gif {
-    display: flex;
-    width: 20%;
-    height: auto;
-    float: left;
-    padding-right: 3%;
-  }
-
-  .main {
-    display: flex;
-    flex-direction: row;
-    /* justify-content: space-between; */
-    align-items: center;
-    flex: 0 0 auto;
-    overflow: hidden;
-    height: 20%;
-  }
-
-  .logo {
-    display: flex;
-    max-width: 25%;
-  }
-
-  .logo > img {
-    flex: 1;
-    max-height: 150px;
-  }
-
-  .topbar-style {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    margin-left: 2%;
-    margin-top: 2%;
-    margin-right: 2%;
-    height: 30%;
-    align-items: center;
-    justify-items: center;
-    padding: 1%;
-    margin-bottom: 2%;
-    box-shadow: 0 6px 10px -10px #000000;
-  }
-
-  .items {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .items > .exists {
-    /* display: flex; */
-    font: Courier;
-    font-size: medium;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-  }
-
-  .items > * {
-    /* display: flex; */
-    font: Courier;
-    font-size: medium;
-    font-weight: bold;
-    color: rgb(183, 183, 183);
-    cursor: auto;
-  }
-
-  .highlighter {
-    width: auto;
-    height: 5px;
-    background-color: rgb(0, 94, 255);
-    margin-top: 10px;
-    display: none;
-  }
-
-  .account-icons {
-    display: flex;
-    width: 20%;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-right: 2%;
-  }
-
-  .account-icons > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-self: center;
-    align-content: center;
-    justify-content: center;
-    justify-self: center;
-    justify-items: center;
-  }
-
-  .icon-defs {
-    font: Courier;
-    font-size: x-small;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    margin-top: 10%;
-  }
-
-  .chips {
-    height: auto;
-    margin-top: -50px;
-    margin-left: 30px;
-  }
-</style>
-
-<script define:vars={{ session }}>
-  if (window.location.href.includes("/plp")) {
-    window.onload = function () {
-      document.getElementById("exists").style.color = "rgb(0, 136, 255)";
-      document.getElementById("highlighter").style.display = "block";
-    };
-  }
-
-  if (window.location.href.includes("/cart")) {
-    window.onload = function () {
-      document.querySelector('[data-testid="ShoppingBagIcon"]').style.color =
-        "rgb(0, 136, 255)";
-      Array.from(document.getElementsByClassName("icon-defs")).forEach(
-        (item) => {
-          if (item.innerHTML === "CART") {
-            item.style.color = "rgb(0, 136, 255)";
-          }
-        }
-      );
-    };
-  }
-
-  if (window.location.href.includes("/wishlist")) {
-    window.onload = function () {
-      document.querySelector('[data-testid="FavoriteIcon"]').style.color =
-        "rgb(0, 136, 255)";
-      Array.from(document.getElementsByClassName("icon-defs")).forEach(
-        (item) => {
-          if (item.innerHTML === "WISHLIST") {
-            item.style.color = "rgb(0, 136, 255)";
-          }
-        }
-      );
-    };
-  }
-</script>

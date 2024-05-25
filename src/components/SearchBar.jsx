@@ -10,6 +10,11 @@ export default function SearchBar() {
     setSearchTerm(event.target.value);
   };
 
+  function handleSearch() {
+    console.log("search -> ", searchTerm);
+    location.href = "/plp?query=" + searchTerm;
+  }
+
   return (
     <Container>
       <TextField
@@ -30,6 +35,7 @@ export default function SearchBar() {
                 color="primary"
                 size="medium"
                 startIcon={React.cloneElement(<SearchIcon />)}
+                onClick={handleSearch}
               >
                 Search
               </Button>

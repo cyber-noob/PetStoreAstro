@@ -1,5 +1,5 @@
 ---
-import PaperStickyNote from './PaperStickyNote.astro';
+import PaperStickyNote from "./PaperStickyNote.astro";
 
 interface Props {
   photos: Object[];
@@ -8,35 +8,42 @@ interface Props {
 const { photos } = Astro.props;
 ---
 
-<div
-  id="productContainer"
-  class="mb-14
-          md:max-w-lg
+<div class="pdp-carousal-main">
+  <div
+    id="productContainer"
+    class="md:max-w-lg
           grid
           gap-2
           md:grid-cols-[106px_minmax(0px,_1fr)]"
->
-  <div id="productCarousel" class="f-carousel md:order-last">
-    {
-      photos.map((photo) => (
-        <div
-          class="f-carousel__slide"
-          data-thumb-src={photo.url}
-          data-fancybox="gallery"
-          data-src={photo.url}
-        >
-          <img alt="" data-lazy-src={photo.url} />
-          <PaperStickyNote publishedOn={photo.publishedOn}/>
-        </div>
-      ))
-    }
+  >
+    <div id="productCarousel" class="f-carousel md:order-last">
+      {
+        photos.map((photo) => (
+          <div
+            class="f-carousel__slide"
+            data-thumb-src={photo["url"]}
+            data-fancybox="gallery"
+            data-src={photo["url"]}
+          >
+            <img alt="" data-lazy-src={photo["url"]} />
+            <PaperStickyNote publishedOn={photo["publishedOn"]} />
+          </div>
+        ))
+      }
+    </div>
   </div>
 </div>
 
 <style>
+  .pdp-carousal-main {
+    width: 50%;
+    height: 0px;
+    top: 0px;
+    position: sticky;
+  }
+
   #productContainer {
     --product-view-height: 600px;
-    width: 50%;
   }
 
   #productContainer .f-thumbs.is-classic.is-vertical {

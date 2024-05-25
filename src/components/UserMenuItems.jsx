@@ -17,9 +17,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 export default function AccountMenu({ profilePic, session }) {
+
   const [anchorEl, setAnchorEl] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
@@ -63,12 +65,29 @@ export default function AccountMenu({ profilePic, session }) {
     console.log("performing logout");
     axios({
       url: "/logout",
-      method: "post",
+      method: "POST",
     })
       .then((response) => {
         console.log("logout data => ", response);
         window.location.reload();
-        profilePic = "";
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleGoogleLogin = async (GoogleUser) => {
+    console.log("google auth token: ", GoogleUser);
+    const id_token = GoogleUser["credential"];
+
+    const res = await axios({
+      url: "/api/auth/react",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${id_token}`,
+      },
+    })
+      .then((response) => {
+        console.log("logout data => ", response);
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
@@ -173,14 +192,16 @@ export default function AccountMenu({ profilePic, session }) {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={React.cloneElement(<GoogleIcon />)}
-              href="/login/google"
-            >
-              Google
-            </Button>
+
+            <GoogleOAuthProvider clientId="183611527273-2ejm3gl7km2q4mc6n8slht1i23f38ps1.apps.googleusercontent.com">
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            </GoogleOAuthProvider>
+
             <Button onClick={closeLoginPopup}>Cancel</Button>
           </DialogActions>
         </Dialog>

@@ -2,19 +2,46 @@
 import axios from "axios";
 import Layout from "../layouts/Layout.astro";
 import ClosetCard from "../components/ClosetCard.astro";
+import { fade } from "astro:transitions";
 
-var query = Astro.url.searchParams.get("query") || "";
-console.log("query -" + query);
+const session = await Astro.locals.auth.validate();
+
 var items = [];
-const localDev = true;
 
-if (localDev) {
+//Fire api request
+const getWishlist = async (items) => {
+  await axios({
+    url: "/wishlist/items",
+    method: "get",
+    baseURL: "http://localhost:8082",
+    headers: {
+      "x-session": session.sessionId,
+    },
+    params: {
+      customer_id: session.user.userId,
+    },
+  })
+    .then((response) => {
+      console.log(
+        "[Wishlist] result -> " + JSON.stringify(response.data, null, 4)
+      );
+
+      //Extarct data and assign to items
+      const children = response.data;
+      for (const child of children) {
+        items.push(child);
+      }
+      console.log("items == ", items);
+    })
+    .catch((error) => {
+      console.log("[search] " + error);
+    });
+};
+
+if (import.meta.env.LOCAL_DEV) {
+  console.log('LOCAL DEV MODE')
   items = [
     {
-      id: "id:namespace:products::5",
-      relevance: 0.5412417054176331,
-      source: "products",
-      fields: {
         sddocname: "products",
         documentid: "id:namespace:products::5",
         idProducts_Animal: "1",
@@ -29,14 +56,9 @@ if (localDev) {
         color: "black n white",
         species: "Dog",
         breed: "Golden Retriever",
-      },
     },
 
     {
-      id: "id:namespace:products::5",
-      relevance: 0.5412417054176331,
-      source: "products",
-      fields: {
         sddocname: "products",
         documentid: "id:namespace:products::5",
         idProducts_Animal: "2",
@@ -51,14 +73,9 @@ if (localDev) {
         color: "black n white",
         species: "Dog",
         breed: "Golden Retriever",
-      },
     },
 
     {
-      id: "id:namespace:products::5",
-      relevance: 0.5412417054176331,
-      source: "products",
-      fields: {
         sddocname: "products",
         documentid: "id:namespace:products::5",
         idProducts_Animal: "3",
@@ -73,67 +90,14 @@ if (localDev) {
         color: "black n white",
         species: "Dog",
         breed: "Golden Retriever",
-      },
     },
   ];
 } else {
-  //Fire api request
-  const getSearchResults = async (val: string) => {
-    await axios({
-      url: "/search/products",
-      method: "get",
-      baseURL: "http://localhost:8082",
-      params: {
-        query: val,
-      },
-    })
-      .then((response) => {
-        // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
-
-        //Extarct data and assign to items
-        const children = response.data.root.children;
-        for (const child of children) {
-          items.push(child);
-        }
-        // console.log('items == ', items)
-      })
-      .catch((error) => {
-        console.log("[search] " + error);
-      });
-  };
-
-  if (query != "") {
-    await getSearchResults(query);
-  } else {
-    console.log("no search term passed");
-  }
+  console.log("INTEGRATION MODE");
+  await getWishlist(items);
 }
 
-var result = [];
-items.forEach((item) => {
-  let map = new Map(Object.entries(item));
-  let fields = new Map(Object.entries(map.get("fields")));
-  const title = fields.get("title");
-  const age = fields.get("age");
-  const weight = fields.get("weight");
-  const lineage = fields.get("lineage");
-  const price = fields.get("price");
-  const color = fields.get("color");
-  const id = fields.get("idProducts_Animal");
-
-  let res = {
-    Title: title,
-    Age: age,
-    Weight: weight,
-    Lineage: lineage,
-    Price: price,
-    Color: color,
-    id: id,
-  };
-  result.push(res);
-});
-
-console.log("results >> ", result);
+console.log("items >> ", items);
 ---
 
 <Layout
@@ -142,7 +106,7 @@ console.log("results >> ", result);
   <div class="title">MY WISHLIST</div>
   <div class="closet-parent">
     <div class="closet-item" id="closet">
-      {result.map((item) => <ClosetCard item={item} />)}
+      {items.map((item) => <ClosetCard item={item} />)}
     </div>
   </div>
 </Layout>

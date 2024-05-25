@@ -6,9 +6,8 @@ import axios from "../../node_modules/axios";
 var query = Astro.url.searchParams.get("query") || "";
 console.log("query -" + query);
 var items = [];
-const localDev = true;
 
-if (localDev) {
+if (import.meta.env.LOCAL_DEV) {
   items = [
     {
       id: "id:namespace:products::5",

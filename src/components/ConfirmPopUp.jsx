@@ -7,7 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {pay} from '../lib/razorpay.js';
 
-export default function AlertDialog({delivery_address}) {
+export default function AlertDialog({ delivery_address, total, session }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -17,7 +17,9 @@ export default function AlertDialog({delivery_address}) {
   const handleClose = (event) => {
     const str = event.target.innerHTML;
     if (str.toLowerCase().includes("payment")) {
-      pay(200);
+      console.log('total: ', total);
+      pay(session.value);
+      event.preventDefault();
     }
     setOpen(false);
   };

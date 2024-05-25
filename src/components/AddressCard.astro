@@ -1,26 +1,35 @@
 ---
 import { Button, Chip } from "@mui/material";
+import EditAddress from "../components/EditAddress.jsx";
+import RemoveButton from "../components/RemoveButton.jsx"
 
-let address = `AJAY D
-54/90I, Jimmy Street,
-Behind PoolClub Sinata,
-TellyTubby,
-Dubai - 783019`;
+interface Props {
+  address: Object;
+  session: Object;
+}
+
+const { address, session } = Astro.props;
 ---
 
-<div class="address-card-parent">
+<div class="address-card-parent" id={address["id"]}>
   <div class="address-details">
     <div class="address-header">
       <div class="address-title">AJAY D</div>
-      <Chip label="Home" variant="contained" color="primary" />
+      {address["is_default"] == 1 ? <Chip label="Home" color="primary" /> : ""}
     </div>
     <div class="mobile">Mobile 9898318001</div>
 
-    <div class="address">{address}</div>
+    <div class="address">{address["door_no"]}</div>
+    <div class="address">{address["line_one"]}</div>
+    <div class="address">{address["line_two"]}</div>
+    <div class="address">{address["region_name"]}</div>
+    <div class="address">{address["city"]}</div>
+    <div class="address">{address["state"]}</div>
+    <div class="address">{address["pincode"]}</div>
 
     <div class="buttons">
-      <Button variant="outlined" size="large">Edit</Button>
-      <Button variant="outlined" size="large">Remove</Button>
+      <EditAddress session={session} address={address} client:load />
+      <RemoveButton session={session} address={address} client:load />
     </div>
   </div>
 </div>
@@ -86,23 +95,3 @@ Dubai - 783019`;
     border: 2px solid rgba(25, 118, 210, 0.5);
   }
 </style>
-
-<script>
-  let ordersCards = document.getElementsByClassName("order-card-parent");
-  for (let i = 0; i < ordersCards.length; i++) {
-    let card = ordersCards.item(i);
-    card.addEventListener(
-      "click",
-      async (event) => {
-        event.preventDefault();
-        // console.log("card -> " + card.getAttribute("id"));
-        location.href =
-          "/order_details?orderId=" +
-          card.getAttribute("id") +
-          "&itemId=" +
-          null;
-      },
-      false
-    );
-  }
-</script>

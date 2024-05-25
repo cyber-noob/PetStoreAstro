@@ -7,6 +7,7 @@ export const GET: APIRoute = async (context) => {
 	if (session) {
 		return context.redirect("/", 302); // redirect to profile page
 	}
+
 	const [url, state] = await googleAuth.getAuthorizationUrl();
 	context.cookies.set("google_oauth_state", state, {
 		httpOnly: true,

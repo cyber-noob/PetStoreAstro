@@ -1,7 +1,42 @@
 ---
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, TextField } from "@mui/material";
 import Layout from "../layouts/Layout.astro";
 import MegaAccessBar from "../components/MegaAccessBar.astro";
+import axios from "axios";
+import Profile from "../components/Profile.jsx";
+
+let session = Astro.cookies.get("session");
+let userInfo;
+
+if (import.meta.env.LOCAL_DEV === "true") {
+  userInfo = {
+    id: "kfyswimkget6z8p",
+    username: "local noob",
+    picture: null,
+    email: "local@local.com",
+    alt_mail: null,
+    gender: null,
+    mobile: null,
+    alt_mobile: null,
+    dob: null,
+    home_location: null,
+  };
+} else {
+  await axios({
+    url: "/user/profile/fetch",
+    method: "get",
+    baseURL: "http://localhost:8082",
+    headers: {
+      Authorization: "Bearer " + session.value,
+    }
+  })
+    .then((response) => {
+      userInfo = response.data;
+    })
+    .catch((error) => {
+      console.log("[UserProfile] " + error);
+    });
+}
 ---
 
 <Layout title="Profile">
@@ -9,79 +44,37 @@ import MegaAccessBar from "../components/MegaAccessBar.astro";
     <MegaAccessBar />
     <div class="account-main">
       <div class="title">PROFILE DETAILS</div>
-      <table class="details">
-        <tr>
-          <td>Full Name</td>
-          <td>Cyber Noob</td>
-        </tr>
 
-        <tr>
-          <td>Gender</td>
-          <td>Male</td>
-        </tr>
-
-        <tr>
-          <td>Mail</td>
-          <td>darkzesty@gmail.com</td>
-        </tr>
-
-        <tr>
-          <td>Alternate Mail</td>
-          <td>-</td>
-        </tr>
-
-        <tr>
-          <td>Alternate Mobile Number</td>
-          <td>-</td>
-        </tr>
-
-        <tr>
-          <td>Mobile Number</td>
-          <td>940230123</td>
-        </tr>
-
-        <tr>
-          <td>Date of Birth</td>
-          <td>03/07/1998</td>
-        </tr>
-
-        <tr>
-          <td>Location</td>
-          <td>Bangalore</td>
-        </tr>
-      </table>
-      <div class="account-buttons">
-          <Button variant="outlined" size="large">EDIT</Button>
-        </div>
+      <Profile userInfo={userInfo} session={session} client:load />
     </div>
   </div>
-</Layout>
 
-<style>
+  <style>
     .profile-main {
-        display: flex;
-        flex-direction: row;
-        margin: 3%;
+      display: flex;
+      flex-direction: row;
+      margin: 3%;
     }
 
-  .account-main {
-    width: 100%;
-    margin-left: 3%;
-    display: flex;
-    flex-direction: column;
-  }
+    .account-main {
+      width: 100%;
+      margin-left: 3%;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .details {
-    width: 100%;
-    margin-top: 5%;
-    padding: 5%;
-  }
+    .details {
+      width: 100%;
+      margin-top: 5%;
+      padding: 5%;
+    }
 
-  tr {
-    line-height: 50px;
-  }
+    tr {
+      line-height: 50px;
+    }
 
-  .account-buttons {
-    width: 50%;
-  }
-</style>
+    .account-buttons {
+      width: 50%;
+    }
+  </style>
+</Layout>

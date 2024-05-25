@@ -1,23 +1,58 @@
 ---
-import Button from "@mui/material/Button";
 import AddressCard from "../components/AddressCard.astro";
 import MegaAccessBar from "../components/MegaAccessBar.astro";
-import OrderCard from "../components/OrderCard.astro";
 import Layout from "../layouts/Layout.astro";
+import AddAddress from "../components/AddAddress.jsx";
+import { get_address } from "../lib/petstore_service.js";
+import axios from "axios";
+
+let session = Astro.cookies.get("session");
+console.log("session details: ", session);
+let addresses = await get_address(session.value);
+
+console.log("addresses - ", addresses);
+let defaultAddress;
+for (var [i, address] of addresses.entries()) {
+  if (address["is_default"] == 1) {
+    defaultAddress = address;
+    addresses.splice(i, 1);
+    break;
+  }
+}
+
+console.log("default address - ", defaultAddress);
+console.log("size -> ", addresses.length);
 ---
 
-<Layout title="my orders">
+<Layout title="Address Book">
   <div class="orders-main">
     <MegaAccessBar />
     <div class="address-list">
       <div class="address-title">
         <div>Saved Addresses</div>
-        <Button variant="outlined" size="large">+ Add New Address</Button>
+        <AddAddress session={session} client:load />
       </div>
 
       <div class="address-cat">
-      <div>Default Address</div>
-      <AddressCard />
+        <div>Default Address</div>
+        {
+          defaultAddress != null ? (
+            <AddressCard session={session} address={defaultAddress} />
+          ) : (
+            <div>No default address found</div>
+          )
+        }
+
+        <div>Other Address</div>
+        {
+          addresses != null || addresses.length > 0 ? (
+            addresses.map((ad) => (
+              <AddressCard session={session} address={ad} />
+            ))
+          ) : (
+            <div>No other addresses found</div>
+          )
+        }
       </div>
     </div>
   </div>
@@ -44,14 +79,15 @@ import Layout from "../layouts/Layout.astro";
     justify-content: space-between;
     font-size: large;
     font-weight: bold;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     margin-bottom: 5%;
   }
 
   .address-cat {
     font-size: medium;
     font-weight: 600;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
   }
 
   .address-cat > * {
