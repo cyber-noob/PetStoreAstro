@@ -1,117 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import axios from "axios";
 import { Button, ButtonGroup } from "@mui/material";
 import ImageGrid from "../components/ImageGrid.astro";
 import WishlishtButton from "../components/WishlistButton.jsx";
 import AddToCartButton from "../components/AddToCartButton.jsx";
-
-const description = `DogSpot Meals is a ready to eat, complete meal for dogs. We make DogSpot Meals by a gentle steam cooking process. The proportion of chicken is the highest among all the ingredients.
-No added preservatives or chemicals. No refrigeration required. Slow steam cooking process, that helps sterilisation of food
-Human grade ingredients: Made with Chicken, Rice, Pumpkin, Carrot, Coconut Oil, Turmeric Extract & Water
-Transparent & Honest Food: You can see, smell and even eat to check the ingredients yourself
-Recommended quantity and easy to serve: 100 g pouch is a complete meal for small dogs (from five to ten kg in weight, e.g., Pug, Shih Tzu etc.). One pouch = One meal. We recommend one pouch per meal and two meals a day. Refer feeding guide for more details
-Natural & Made in India: Made with ingredients you would find in your own kitchen. Globally accepted dog food recipe Made in India
-Best Before: Best before 12 months from the date of manufacturing even when stored at room temperature
-100% money back guarantee. If your pet doesn't eat  DogSpot Meal, we will take the unused food back and refund the money. No questions asked
-Environment friendly Packing: 100% recyclable pouch and packaging
-Health Benefits & Ingredients:
-
-Chicken:
-We source high quality human grade chicken, rich in proteins, fat, minerals and vitamins. Dogs need protein as their main source of energy;  chicken is known to be one of the best sources of protein and helps dogs to build lean muscle mass. Omega 6 Fatty Acids are required for a dog’s healthy skin and shiny coat, which is present in chicken. Chicken is a great source of essential amino acids for dogs.
-
-Pumpkin:
-Pumpkin is a superfood for dogs. It is a good source of essential Vitamins, Minerals and fibre. Besides being a natural stomach soother, pumpkin also helps to remove excess water in a dog's digestive tract and reduces diarrhoea. Pumpkin also works as a great prebiotic.
-
-Carrot:
-Carrot is a great source of Vitamin A. There are two types of Vitamin A: Retinoids and Carotenoids Carrots are rich in fibre and Beta-Carotene. Beta-Carotene has antioxidative properties and is a precursor to Vitamin A (dogs convert Beta Carotene into Vitamin A (Retinol). It provides support for eye, skin, & coat health and a thriving immune system.
-
-Coconut Oil:
-Coconut oil is high in saturated fat and medium-chain triglycerides. Medium chain triglycerides are good fats that are beneficial for the immune system, digestive system, skin, and cognitive functions. Coconut oil is easier to digest, so the body can use it efficiently. Lauric Acid, present in coconut oil, has immune-boosting benefits. Feeding Coconut oil in the right amount to dogs is good for their hair, skin, digestive system, immune system and endocrine system.
-
-Rice:
-Rice, besides providing the daily dose of carbohydrates, provides many health benefits for dogs. Antioxidants in rice defend against diseases and prevent cognitive dysfunction in ageing pets. It soothes the gut during gastrointestinal upsets. Carbohydrates boost energy levels and improve cognitive function.
-
-Turmeric Extract (Curcumin):
-
-Turmeric has antioxidant, anti-inflammatory, anti-viral, anti-bacterial, anti-fungal, wound healing and anti-cancer properties. It helps fight diseases like arthritis, diabetes, cancer, liver disease, gastrointestinal issues and more. It is also known to promote healthy joints. Turmeric is a powerful antioxidant. It neutralises free radicals on its own but also stimulates your pet’s body’s own antioxidant enzymes and hence is a great immunity booster. 
-
-In DogSpot Meals’ Chicken and Pumpkin Recipe, we use all-natural, standardised, water-dispersible turmeric extract. It has an optimised higher absorption/bioavailability of curcumin. 
-
-Storage: 
-
-Store the sealed pouch in a dry and cool place
-Open pouch should be stored fridge (around 2-5°C) and should be consumed within 12 hours
-Feeding Guidelines
-
-The food has to be given directly to your pet. No need to heat or to mix anything with it. It is complete food
-Heating is required only in extremely cold weather. You can add little hot water to enhance the aroma
-The following feeding quantities, in the table, are approximate. A body weight range has been indicated.  Daily intake may vary based on activity levels and other factors such as weather, mental stress etc.
-
-
-Nutritional Analysis (Per 100g Food):
-Protein 13%, Fat 11%, Fibre 1.5%, Moisture 70%, Energy- 178 Kcal
-
-Other Important Instructions:
-
-Do Not Use the pouch if the pouch is leaking or puffed
-Pouch ingredients should be consumed immediately. Open pouch should be stored under refrigeration (around 2-5 degree celsius)
-Store the sealed pouch in a dry and cool place`;
+import { get_product_details } from "../lib/petstore_service";
+import { get_today } from "../lib/misc";
 
 const session = await Astro.locals.auth.validate();
 var id = Astro.url.searchParams.get("id") || "";
 console.log("query -" + id);
 
-let item;
-
-if (import.meta.env.LOCAL_DEV) {
-  item = {
-    title: "Hey",
-    description: description,
-    photos: [
-      {
-        url: "https://www.themillennialsahm.com/wp-content/uploads/2020/10/HuskyPuppy1.jpg",
-        publishedOn: "23 Jan 2023",
-      },
-
-      {
-        url: "https://cdn.dotpe.in/longtail/store-items/8096649/m5ajF3gx.jpeg",
-        publishedOn: "09 July 2022",
-      },
-
-      {
-        url: "https://cdn.dotpe.in/longtail/store-items/8096649/RVQ3ACZj.jpeg",
-        publishedOn: "15 Dec 2023",
-      },
-    ],
-    lineage: "dragon",
-    age: "2 weeks",
-    weight: "40kg",
-    color: "white",
-    sex: "M",
-    species: "mammal",
-    price: "2000",
-  };
-} else if (!import.meta.env.LOCAL_DEV && id != "") {
-  //Fire api request
-  await axios({
-    url: "/pdp/details",
-    method: "get",
-    baseURL: "http://localhost:8082",
-    params: {
-      product_id: id,
-    },
-  })
-    .then((response) => {
-      // console.log("[LPL]search result - " + JSON.stringify(response.data, null, 4));
-
-      //Extarct data and assign to items
-      item = response.data;
-    })
-    .catch((error) => {
-      console.log("[search] " + error);
-    });
-}
+console.log('pdp date - ', get_today());
+const item = await get_product_details(id);
+const booking_url = "/booking?id=" + item.seller_id + "&date=" + get_today();
 ---
 
 <Layout title="Product Description">
@@ -183,7 +85,7 @@ if (import.meta.env.LOCAL_DEV) {
         <div class="two-buttons">
           <WishlishtButton session={session} product_id={id} client:load />
 
-          <Button size="large" variant="outlined" href="/vc">
+          <Button size="large" variant="outlined" href={booking_url}>
             Book a video call?
           </Button>
         </div>
@@ -482,31 +384,31 @@ if (import.meta.env.LOCAL_DEV) {
 </style>
 
 <script>
-    let count = 1;
+  let count = 1;
 
-    //Plus Button
-    document.getElementById("plus-button").addEventListener(
-      "click",
-      (e) => {
-        count = count + 1;
+  //Plus Button
+  document.getElementById("plus-button").addEventListener(
+    "click",
+    (e) => {
+      count = count + 1;
+      document
+        .getElementById("item-count")
+        .getElementsByTagName("button")[0].innerHTML = count.toString();
+    },
+    false
+  );
+
+  //Minus Button
+  document.getElementById("minus-button").addEventListener(
+    "click",
+    (e) => {
+      if (count > 0) {
+        count = count - 1;
         document
           .getElementById("item-count")
           .getElementsByTagName("button")[0].innerHTML = count.toString();
-      },
-      false
-    );
-
-    //Minus Button
-    document.getElementById("minus-button").addEventListener(
-      "click",
-      (e) => {
-        if (count > 0) {
-          count = count - 1;
-          document
-            .getElementById("item-count")
-            .getElementsByTagName("button")[0].innerHTML = count.toString();
-        }
-      },
-      false
-    );
+      }
+    },
+    false
+  );
 </script>

@@ -13,6 +13,16 @@ const server = {
 
         modules: {
 
+            products: {
+
+                base: "/pdp",
+
+                endpoints: {
+
+                    fetch: "/details"
+                }
+            },
+
             order: {
 
                 base: "/order",
@@ -22,6 +32,19 @@ const server = {
                     place_order: "/",
 
                     validate_payment: "/payment"
+                }
+            },
+
+            wishlist: {
+                base: '/wishlist',
+
+                endpoints: {
+                    
+                    fetch: '/items',
+
+                    add: '/add',
+
+                    delete: '/remove/item'
                 }
             },
 
@@ -38,6 +61,42 @@ const server = {
                     update: '/update',
 
                     delete: '/remove'
+                }
+            },
+
+            cart: {
+
+                base: '/cart',
+
+                endpoints: {
+
+                    add: '/item',
+
+                    fetch: '/items',
+
+                    delete: '/item'
+                }
+            },
+
+            slots: {
+
+                base: '/slot',
+
+                endpoints: {
+
+                    fetch: '/'
+                }
+            },
+
+            appointments: {
+
+                base: '/appointments/schedule',
+
+                endpoints: {
+
+                    reserve: '/reserve',
+
+                    unreserve: '/unreserve'
                 }
             }
         }

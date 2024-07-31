@@ -3,101 +3,12 @@ import axios from "axios";
 import Layout from "../layouts/Layout.astro";
 import ClosetCard from "../components/ClosetCard.astro";
 import { fade } from "astro:transitions";
+import { get_wishlist } from "../lib/petstore_service";
 
-const session = await Astro.locals.auth.validate();
+let session = Astro.cookies.get("session");
 
-var items = [];
-
-//Fire api request
-const getWishlist = async (items) => {
-  await axios({
-    url: "/wishlist/items",
-    method: "get",
-    baseURL: "http://localhost:8082",
-    headers: {
-      "x-session": session.sessionId,
-    },
-    params: {
-      customer_id: session.user.userId,
-    },
-  })
-    .then((response) => {
-      console.log(
-        "[Wishlist] result -> " + JSON.stringify(response.data, null, 4)
-      );
-
-      //Extarct data and assign to items
-      const children = response.data;
-      for (const child of children) {
-        items.push(child);
-      }
-      console.log("items == ", items);
-    })
-    .catch((error) => {
-      console.log("[search] " + error);
-    });
-};
-
-if (import.meta.env.LOCAL_DEV) {
-  console.log('LOCAL DEV MODE')
-  items = [
-    {
-        sddocname: "products",
-        documentid: "id:namespace:products::5",
-        idProducts_Animal: "1",
-        title: "Beagle Puppies: Curious Companions",
-        description:
-          "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
-        age: "4 month",
-        lineage: "normal",
-        weight: "5 kg",
-        price: "23000",
-        sex: "Male",
-        color: "black n white",
-        species: "Dog",
-        breed: "Golden Retriever",
-    },
-
-    {
-        sddocname: "products",
-        documentid: "id:namespace:products::5",
-        idProducts_Animal: "2",
-        title: "Huskie Puppies",
-        description:
-          "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
-        age: "4 month",
-        lineage: "normal",
-        weight: "5 kg",
-        price: "23000",
-        sex: "Male",
-        color: "black n white",
-        species: "Dog",
-        breed: "Golden Retriever",
-    },
-
-    {
-        sddocname: "products",
-        documentid: "id:namespace:products::5",
-        idProducts_Animal: "3",
-        title: "Lab Puppies: Energy",
-        description:
-          "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
-        age: "4 month",
-        lineage: "normal",
-        weight: "5 kg",
-        price: "23000",
-        sex: "Male",
-        color: "black n white",
-        species: "Dog",
-        breed: "Golden Retriever",
-    },
-  ];
-} else {
-  console.log("INTEGRATION MODE");
-  await getWishlist(items);
-}
-
-console.log("items >> ", items);
+let wishlist_response = await get_wishlist(session.value);
+const items = wishlist_response['items'];
 ---
 
 <Layout

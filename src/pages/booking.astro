@@ -1,37 +1,35 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import ResponsiveDatePicker from "../../components/Date.jsx";
+import Layout from "../layouts/Layout.astro";
+import {ResponsiveDatePicker} from "../components/Date.jsx";
 import { Avatar, Button, Divider } from "@mui/material";
 import ScheduleOutlinedIcon from '@mui/icons-material/Schedule';
 import SellOutlinedIcon from '@mui/icons-material/Sell';
 import VideocamOutlinedIcon from '@mui/icons-material/Videocam';
-import AccountMenu from "../../components/UserMenuItems";
+import {get_slots} from '../lib/petstore_service';
 
-const time_slots = [
-  '10:00 am',
-  '10:30 am',
-  '11:00 am',
-  '11:30 am',
-  '12:00 pm',
-  '12:30 pm',
-  '01:00 pm',
-  '01:30 pm',
-  '02:00 pm',
-  '02:00 pm',
-  '02:00 pm',
+var seller = Astro.url.searchParams.get("seller") || "";
+var date = Astro.url.searchParams.get("date") || "";
 
-  '10:00 am',
-  '10:30 am',
-  '11:00 am',
-  '11:30 am',
-  '12:00 pm',
-  '12:30 pm',
-  '01:00 pm',
-  '01:30 pm',
-  '02:00 pm',
-  '02:00 pm',
-  '02:00 pm',
-]
+const slots = await get_slots(seller, date);
+const time_slots = slots.slots;
+
+console.log('date: ', date);
+console.log('deb: ', time_slots);
+
+if (date in time_slots) {
+  time_slots[date].forEach(element => {
+  if (element.isAvailable) {
+    element.disabled = false;
+    element.button = "outlined";
+  } else {
+    element.disabled = true;
+    element.button = "contained";
+  }
+});
+} else 
+    time_slots[date] = [];
+
+console.log('bv: ', time_slots)
 ---
 
 <Layout title="Booking">
@@ -68,12 +66,14 @@ const time_slots = [
 
     <div class="booking-slot">
       <div class="date">
-        <ResponsiveDatePicker client:load />
+        <ResponsiveDatePicker client:load date={date} />
       </div>
       <div class="time-slots">
         <div class="slots">
         {
-          time_slots.map((item) => <Button variant="outlined">{item}</Button>)
+          time_slots[date].map(
+            (item) => <Button variant={item.button} disabled={item.disabled}>{item.slot}</Button>
+          )
         }
         </div>
       </div>

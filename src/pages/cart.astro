@@ -4,10 +4,9 @@ import CartCard from "../components/CartCard.astro";
 import Layout from "../layouts/Layout.astro";
 import axios from "axios";
 import AlertDialog from "../components/ConfirmPopUp";
+import { get_cart } from "../lib/petstore_service";
 
 let session = Astro.cookies.get("session");
-var items = [];
-var total;
 
 let deliver_to = "AJAY D (9530193055)";
 let delivery_address = `54/90I, Jimmy Street,
@@ -15,93 +14,12 @@ Behind PoolClub Sinata,
 TellyTubby,
 Dubai - 783019`;
 
-//Fire api request
-const getCart = async () => {
-  console.log("firing api /cart/items");
-  await axios({
-    url: "/cart/items",
-    method: "GET",
-    baseURL: "http://localhost:8082",
-    headers: {
-      Authorization: "Bearer " + session.value,
-    },
-  })
-    .then((response) => {
-      //console.log("cart response: ", response);
-      items = response.data['items'];
-      total = response.data['total'];
-    })
-    .catch((error) => {
-      // console.log('[cart] ', axios.request);
-      console.log("[cart] ", error);
-    });
-};
+const cart = await get_cart(session.value);
 
-if (import.meta.env.LOCAL_DEV === 'true') {
-  console.log('in local mode')
+console.log("cart: ", cart);
 
-  total = 3000
-  items = [
-    {
-      sddocname: "products",
-      documentid: "id:namespace:products::5",
-      idProducts_Animal: "1",
-      title:
-        '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
-      description:
-        "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
-      age: "4 month",
-      lineage: "normal",
-      weight: "5 kg",
-      price: "23000",
-      sex: "Male",
-      color: "black n white",
-      species: "Dog",
-      breed: "Golden Retriever",
-      collection: "Pet Accessory",
-    },
-
-    {
-      sddocname: "products",
-      documentid: "id:namespace:products::5",
-      idProducts_Animal: "2",
-      title:
-        '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
-      description:
-        "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
-      age: "4 month",
-      lineage: "normal",
-      weight: "5 kg",
-      price: "23000",
-      sex: "Male",
-      color: "black n white",
-      species: "Dog",
-      breed: "Golden Retriever",
-      collection: "Pet Companion",
-    },
-
-    {
-      sddocname: "products",
-      documentid: "id:namespace:products::5",
-      idProducts_Animal: "3",
-      title:
-        '"Beagle Puppies: Curious Companions for Your Next Great Adventure!"',
-      description:
-        "Beagles are known for their friendly and curious nature. They are a small to medium-sized breed with a keen sense of smell, often used in hunting and detection roles.",
-      age: "4 month",
-      lineage: "normal",
-      weight: "5 kg",
-      price: "23000",
-      sex: "Male",
-      color: "black n white",
-      species: "Dog",
-      breed: "Golden Retriever",
-      collection: "Pet Companion",
-    },
-  ];
-} else {
-  await getCart();
-}
+const items = cart["items"];
+const pricing = cart["pricing"];
 
 console.log("items >> ", items);
 ---
@@ -123,33 +41,33 @@ console.log("items >> ", items);
       <div class="cart-price-title">Price Breakup</div>
       <div class="cart-price-breakup">
         <div class="row">
-          <h5>Total MRP</h5>
-          <h5>Rs.{total}</h5>
-        </div>
-
-        <div class="row">
-          <h5>Platform Fee</h5>
-          <h5>Rs.2</h5>
-        </div>
-
-        <div class="row">
-          <h5>Shipping Fee</h5>
-          <h5>Rs.1000</h5>
+          <h5>Price</h5>
+          <h5>Rs.{pricing["price"]}</h5>
         </div>
 
         <div class="row">
           <h5>Handling Fee</h5>
-          <h5>Free</h5>
+          <h5>Rs.{pricing["handling_fee"]}</h5>
+        </div>
+
+        <div class="row">
+          <h5>Shipping Fee</h5>
+          <h5>Rs.{pricing["shipping_fee"]}</h5>
         </div>
 
         <div class="cart-price-footer">
           <div class="row">
             <h3>Total</h3>
-            <h4>Rs.5000</h4>
+            <h4>Rs.{pricing["total"]}</h4>
           </div>
 
           <div id="place-order">
-            <AlertDialog delivery_address={delivery_address} total={total} session = {session} client:load />
+            <AlertDialog
+              delivery_address={delivery_address}
+              total={pricing["total"]}
+              session={session}
+              client:load
+            />
           </div>
         </div>
       </div>
